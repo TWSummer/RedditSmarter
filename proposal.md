@@ -45,6 +45,7 @@ In addition to the webpack entry file, the following scripts will be created for
 - [ ] Get webpack serving files to index.html
 - [ ] Create search component
 - [ ] Get snoowrap to begin pulling data from Reddit
+- [ ] Hide Reddit API key from Github
 
 ##### Day 2
 
