@@ -28,9 +28,13 @@ The project will be implemented using the following technologies:
 * `snoowrap` for interacting with Reddit's API
 * Webpack to bundle and serve up the various scripts
 
+In addition to the webpack entry file, the following scripts will be created for this project:
+
 ### Implementation Timeline
 
 ##### Over the Weekend
+
+- [ ] Complete project proposal
 
 ##### Day 1
 
