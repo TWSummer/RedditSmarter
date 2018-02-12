@@ -76,13 +76,20 @@ var _post_grabber2 = _interopRequireDefault(_post_grabber);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var p = new _post_grabber2.default("likeus", 2000);
-
 document.addEventListener("DOMContentLoaded", function () {
+  var subredditSearchForm = document.getElementById("subreddit-search-form");
+  subredditSearchForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    gatherPosts(e.target[0].value);
+  });
   var hw = document.createElement("P");
   hw.innerHTML = "Hello World";
   document.getElementsByTagName('body')[0].appendChild(hw);
 });
+
+var gatherPosts = function gatherPosts(subredditName) {
+  var p = new _post_grabber2.default(subredditName, 2000);
+};
 
 /***/ }),
 /* 1 */
@@ -29423,8 +29430,8 @@ var PostGrabber = function () {
     value: function getPosts() {
       var _this2 = this;
 
-      this.r.getSubreddit(this.targetSubreddit).search({ query: 'timestamp:' + this.createTime + '..' + this.endTime, sort: "new", time: "all", syntax: "cloudsearch", limit: 500 }).then(function (results) {
-        for (var i = 0; i < 500; i++) {
+      this.r.getSubreddit(this.targetSubreddit).search({ query: 'timestamp:' + this.createTime + '..' + this.endTime, sort: "new", time: "all", syntax: "cloudsearch", limit: 100 }).then(function (results) {
+        for (var i = 0; i < 100; i++) {
           if (results[i]) {
             _this2.posts.push(results[i]);
           }
@@ -29435,6 +29442,11 @@ var PostGrabber = function () {
           _this2.getPosts();
         }
       });
+    }
+  }, {
+    key: 'pause',
+    value: function pause() {
+      this.paused = !this.paused;
     }
   }]);
 
