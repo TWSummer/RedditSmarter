@@ -18,6 +18,10 @@
     "start": "webpack -w",
     "postinstall": "webpack -p"
   },
+  "engines": {
+    "npm": "3.10.10",
+    "node": "v6.11.5"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TWSummer/RedditSmarter.git"
