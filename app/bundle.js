@@ -70,7 +70,13 @@
 "use strict";
 
 
-var snoowrap = __webpack_require__(153);
+var _post_grabber = __webpack_require__(334);
+
+var _post_grabber2 = _interopRequireDefault(_post_grabber);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var p = new _post_grabber2.default("likeus", 2000);
 
 document.addEventListener("DOMContentLoaded", function () {
   var hw = document.createElement("P");
@@ -29366,6 +29372,94 @@ class UserList {
   }
 }
 exports.default = UserList;
+
+/***/ }),
+/* 332 */,
+/* 333 */,
+/* 334 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _snoowrap = __webpack_require__(153);
+
+var _snoowrap2 = _interopRequireDefault(_snoowrap);
+
+var _config = __webpack_require__(335);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PostGrabber = function () {
+  function PostGrabber(target, limit) {
+    var _this = this;
+
+    _classCallCheck(this, PostGrabber);
+
+    this.r = new _snoowrap2.default(_config.apiConfig);
+    this.posts = [];
+    this.targetSubreddit = target;
+    this.paused = false;
+    this.maxPosts = limit;
+    var ignoreNewestHours = 36;
+    this.endTime = Math.floor(Date.now() / 1000 - 3600 * ignoreNewestHours);
+    this.createTime = 0;
+    this.r.getSubreddit(this.targetSubreddit).fetch().then(function (subInfo) {
+      _this.createTime = subInfo.created_utc;
+      _this.getPosts();
+    });
+  }
+
+  _createClass(PostGrabber, [{
+    key: 'getPosts',
+    value: function getPosts() {
+      var _this2 = this;
+
+      this.r.getSubreddit(this.targetSubreddit).search({ query: 'timestamp:' + this.createTime + '..' + this.endTime, sort: "new", time: "all", syntax: "cloudsearch", limit: 500 }).then(function (results) {
+        for (var i = 0; i < 500; i++) {
+          if (results[i]) {
+            _this2.posts.push(results[i]);
+          }
+        }
+        console.log(_this2.posts);
+        _this2.endTime = _this2.posts[_this2.posts.length - 1].created_utc;
+        if (_this2.posts.length < _this2.maxPosts && !_this2.paused) {
+          _this2.getPosts();
+        }
+      });
+    }
+  }]);
+
+  return PostGrabber;
+}();
+
+exports.default = PostGrabber;
+
+/***/ }),
+/* 335 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var apiConfig = exports.apiConfig = {
+  userAgent: "Reddit Smarter is a tool for providing insight into karma patterns by subreddit",
+  clientId: "L1P4DbaMoN1kqA",
+  clientSecret: "f89SF6w8jHhLdrlBIJOekEMSXyA",
+  username: "RedditSmarterBot1",
+  password: "UseRedditSmarter"
+};
 
 /***/ })
 /******/ ]);
