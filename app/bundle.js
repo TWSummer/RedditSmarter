@@ -11569,15 +11569,35 @@ var SearchFeature = function () {
   function SearchFeature() {
     _classCallCheck(this, SearchFeature);
 
-    var subredditSearchForm = document.getElementById("subreddit-search-form");
-    subredditSearchForm.addEventListener("submit", this.submitEvent.bind(this));
+    this.subredditSearchForm = document.getElementById("subreddit-search-form");
+    this.subredditSearchForm.addEventListener("submit", this.submitEvent.bind(this));
   }
 
   _createClass(SearchFeature, [{
     key: "submitEvent",
     value: function submitEvent(e) {
       e.preventDefault();
+      if (this.postGrabber) {
+        this.pausePostLoad();
+      }
       this.gatherPosts(e.target[0].value);
+      this.addPauseButton.bind(this)();
+    }
+  }, {
+    key: "addPauseButton",
+    value: function addPauseButton() {
+      if (!this.pauseButton) {
+        this.pauseButton = document.createElement("button");
+        this.pauseButton.innerHTML = "Pause";
+        this.pauseButton.addEventListener("click", this.pausePostLoad.bind(this));
+        var header = document.getElementById("search-header");
+        header.appendChild(this.pauseButton);
+      }
+    }
+  }, {
+    key: "pausePostLoad",
+    value: function pausePostLoad() {
+      this.postGrabber.pause();
     }
   }, {
     key: "gatherPosts",
@@ -11656,6 +11676,9 @@ var PostGrabber = function () {
     key: 'pause',
     value: function pause() {
       this.paused = !this.paused;
+      if (!this.paused) {
+        this.getPosts();
+      }
     }
   }]);
 
