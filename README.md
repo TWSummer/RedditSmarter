@@ -32,6 +32,12 @@ The project will be implemented using the following technologies:
 
 In addition to the webpack entry file, the following scripts will be created for this project:
 
+post_grabber.js: Will handle making calls to the Reddit API, storing posts in an array, and calling analyze to parse the array
+
+analyze.js: Will take in an array of posts and parse it into separate sets of values for each graph
+
+graph.js: Will handle rendering of each graph
+
 ### Implementation Timeline
 
 ##### Over the Weekend
