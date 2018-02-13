@@ -501,64 +501,6 @@ module.exports = isArrayLike;
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseMatches = __webpack_require__(174),
-    baseMatchesProperty = __webpack_require__(217),
-    identity = __webpack_require__(29),
-    isArray = __webpack_require__(0),
-    property = __webpack_require__(105);
-
-/**
- * The base implementation of `_.iteratee`.
- *
- * @private
- * @param {*} [value=_.identity] The value to convert to an iteratee.
- * @returns {Function} Returns the iteratee.
- */
-function baseIteratee(value) {
-  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
-  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
-  if (typeof value == 'function') {
-    return value;
-  }
-  if (value == null) {
-    return identity;
-  }
-  if (typeof value == 'object') {
-    return isArray(value)
-      ? baseMatchesProperty(value[0], value[1])
-      : baseMatches(value);
-  }
-  return property(value);
-}
-
-module.exports = baseIteratee;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _bluebird = __webpack_require__(259);
-
-var _bluebird2 = _interopRequireDefault(_bluebird);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PromiseCopy = _bluebird2.default.getNewLibraryCopy();
-PromiseCopy.config({ cancellation: true, warnings: false });
-exports.default = PromiseCopy;
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -748,6 +690,64 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseMatches = __webpack_require__(174),
+    baseMatchesProperty = __webpack_require__(217),
+    identity = __webpack_require__(29),
+    isArray = __webpack_require__(0),
+    property = __webpack_require__(105);
+
+/**
+ * The base implementation of `_.iteratee`.
+ *
+ * @private
+ * @param {*} [value=_.identity] The value to convert to an iteratee.
+ * @returns {Function} Returns the iteratee.
+ */
+function baseIteratee(value) {
+  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
+  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
+  if (typeof value == 'function') {
+    return value;
+  }
+  if (value == null) {
+    return identity;
+  }
+  if (typeof value == 'object') {
+    return isArray(value)
+      ? baseMatchesProperty(value[0], value[1])
+      : baseMatches(value);
+  }
+  return property(value);
+}
+
+module.exports = baseIteratee;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _bluebird = __webpack_require__(259);
+
+var _bluebird2 = _interopRequireDefault(_bluebird);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PromiseCopy = _bluebird2.default.getNewLibraryCopy();
+PromiseCopy.config({ cancellation: true, warnings: false });
+exports.default = PromiseCopy;
+
+/***/ }),
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -922,7 +922,7 @@ var _cloneDeep2 = __webpack_require__(305);
 
 var _cloneDeep3 = _interopRequireDefault(_cloneDeep2);
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -2440,7 +2440,7 @@ var _concat3 = _interopRequireDefault(_concat2);
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -2896,7 +2896,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 53 */
@@ -4067,7 +4067,7 @@ var _clone3 = _interopRequireDefault(_clone2);
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -4464,7 +4464,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -5390,7 +5390,7 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(126).setImmediate, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(126).setImmediate, __webpack_require__(4)))
 
 /***/ }),
 /* 87 */
@@ -5593,7 +5593,7 @@ module.exports = snakeCase;
 /* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIteratee = __webpack_require__(7),
+var baseIteratee = __webpack_require__(8),
     negate = __webpack_require__(226),
     pickBy = __webpack_require__(227);
 
@@ -6466,7 +6466,7 @@ module.exports = shortOut;
 
 var baseAssignValue = __webpack_require__(30),
     baseForOwn = __webpack_require__(72),
-    baseIteratee = __webpack_require__(7);
+    baseIteratee = __webpack_require__(8);
 
 /**
  * Creates an object with the same keys as `object` and values generated
@@ -6536,7 +6536,7 @@ module.exports = baseFor;
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayMap = __webpack_require__(25),
-    baseIteratee = __webpack_require__(7),
+    baseIteratee = __webpack_require__(8),
     baseMap = __webpack_require__(251),
     isArray = __webpack_require__(0);
 
@@ -7653,7 +7653,7 @@ exports.encode = exports.stringify = __webpack_require__(272);
 /* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIteratee = __webpack_require__(7),
+var baseIteratee = __webpack_require__(8),
     basePullAt = __webpack_require__(274);
 
 /**
@@ -9123,7 +9123,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(7)))
 
 /***/ }),
 /* 146 */
@@ -11628,11 +11628,11 @@ var _snoowrap = __webpack_require__(155);
 
 var _snoowrap2 = _interopRequireDefault(_snoowrap);
 
-var _config = __webpack_require__(334);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// import { setENVVars } from '../../config';
 
 var PostGrabber = function () {
   function PostGrabber(target, limit) {
@@ -11641,7 +11641,7 @@ var PostGrabber = function () {
     _classCallCheck(this, PostGrabber);
 
     if (process.env.NODE_ENV !== 'production') {
-      (0, _config.setENVVars)();
+      setENVVars();
     }
     this.r = new _snoowrap2.default({
       userAgent: process.env.USER_AGENT,
@@ -11695,7 +11695,7 @@ var PostGrabber = function () {
 }();
 
 exports.default = PostGrabber;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 155 */
@@ -11746,7 +11746,7 @@ var _defaults3 = _interopRequireDefault(_defaults2);
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -15882,7 +15882,7 @@ module.exports = negate;
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayMap = __webpack_require__(25),
-    baseIteratee = __webpack_require__(7),
+    baseIteratee = __webpack_require__(8),
     basePickBy = __webpack_require__(106),
     getAllKeysIn = __webpack_require__(64);
 
@@ -22551,7 +22551,7 @@ module.exports = ret;
 
 },{"./es5":13}]},{},[4])(4)
 });                    ;if (typeof window !== 'undefined' && window !== null) {                               window.P = window.Promise;                                                     } else if (typeof self !== 'undefined' && self !== null) {                             self.P = self.Promise;                                                         }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(4), __webpack_require__(126).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(4), __webpack_require__(126).setImmediate))
 
 /***/ }),
 /* 260 */
@@ -22744,7 +22744,7 @@ module.exports = ret;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(7)))
 
 /***/ }),
 /* 261 */
@@ -22873,7 +22873,7 @@ exports.credentialedClientRequest = credentialedClientRequest;
 exports.unauthenticatedRequest = unauthenticatedRequest;
 exports.updateAccessToken = updateAccessToken;
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -23400,7 +23400,7 @@ module.exports = toPlainObject;
 "use strict";
 
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -25231,7 +25231,7 @@ module.exports = keyBy;
 
 var arrayAggregator = __webpack_require__(295),
     baseAggregator = __webpack_require__(296),
-    baseIteratee = __webpack_require__(7),
+    baseIteratee = __webpack_require__(8),
     isArray = __webpack_require__(0);
 
 /**
@@ -25361,7 +25361,7 @@ module.exports = find;
 /* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIteratee = __webpack_require__(7),
+var baseIteratee = __webpack_require__(8),
     isArrayLike = __webpack_require__(6),
     keys = __webpack_require__(10);
 
@@ -25393,7 +25393,7 @@ module.exports = createFind;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseFindIndex = __webpack_require__(123),
-    baseIteratee = __webpack_require__(7),
+    baseIteratee = __webpack_require__(8),
     toInteger = __webpack_require__(46);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -27025,7 +27025,7 @@ var _chunk3 = _interopRequireDefault(_chunk2);
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -29530,33 +29530,6 @@ class UserList {
   }
 }
 exports.default = UserList;
-
-/***/ }),
-/* 334 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var setENVVars = exports.setENVVars = function setENVVars() {
-  process.env.USER_AGENT = "Reddit Smarter is a tool for providing insight into karma patterns by subreddit";
-  process.env.CLIENT_ID = "L1P4DbaMoN1kqA";
-  process.env.CLIENT_SECRET = "f89SF6w8jHhLdrlBIJOekEMSXyA";
-  process.env.USERNAME = "RedditSmarterBot1";
-  process.env.PASSWORD = "UseRedditSmarter";
-};
-
-var apiConfig = exports.apiConfig = {
-  userAgent: "Reddit Smarter is a tool for providing insight into karma patterns by subreddit",
-  clientId: "L1P4DbaMoN1kqA",
-  clientSecret: "f89SF6w8jHhLdrlBIJOekEMSXyA",
-  username: "RedditSmarterBot1",
-  password: "UseRedditSmarter"
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ })
 /******/ ]);
