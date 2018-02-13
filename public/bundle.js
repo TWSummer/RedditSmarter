@@ -11599,9 +11599,7 @@ class SearchFeature {
 
 class PostGrabber {
   constructor(target, limit) {
-    if (process.env.NODE_ENV !== 'production') {
-      setENVVars();
-    }
+    // setENVVars();
     this.r = new __WEBPACK_IMPORTED_MODULE_0_snoowrap___default.a({
       userAgent: process.env.USER_AGENT,
       clientId: process.env.CLIENT_ID,

@@ -3,9 +3,7 @@ import snoowrap from 'snoowrap';
 
 class PostGrabber {
   constructor(target, limit) {
-    if (process.env.NODE_ENV !== 'production') {
-      setENVVars();
-    }
+    // setENVVars();
     this.r = new snoowrap({
       userAgent: process.env.USER_AGENT,
       clientId: process.env.CLIENT_ID,
