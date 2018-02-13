@@ -1,4 +1,4 @@
-// import PostGrabber from './post_grabber';
+import PostGrabber from './post_grabber';
 
 class SearchFeature {
   constructor() {
@@ -31,7 +31,7 @@ class SearchFeature {
 
   gatherPosts (subredditName)
   {
-    // this.postGrabber = new PostGrabber(subredditName, 2000);
+    this.postGrabber = new PostGrabber(subredditName, 2000);
   }
 }
 
