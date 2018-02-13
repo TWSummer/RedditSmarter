@@ -11594,21 +11594,19 @@ class SearchFeature {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snoowrap__ = __webpack_require__(155);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snoowrap__ = __webpack_require__(155);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snoowrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_snoowrap__);
 
-// import { setENVVars } from '../config';
+
 
 class PostGrabber {
   constructor(target, limit) {
-    // setENVVars();
-    console.log(process.env);
     this.r = new __WEBPACK_IMPORTED_MODULE_0_snoowrap___default.a({
-      userAgent: process.env.USER_AGENT,
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      username: process.env.USERNAME,
-      password: process.env.PASSWORD
+      userAgent: "Reddit Smarter is a tool for providing insight into karma patterns by subreddit",
+      clientId: "L1P4DbaMoN1kqA",
+      clientSecret: "f89SF6w8jHhLdrlBIJOekEMSXyA",
+      username: "RedditSmarterBot1",
+      password: "UseRedditSmarter"
     });
     this.posts = [];
     this.targetSubreddit = target;
@@ -11651,7 +11649,6 @@ class PostGrabber {
 
 /* harmony default export */ __webpack_exports__["a"] = (PostGrabber);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(15)))
 
 /***/ }),
 /* 155 */

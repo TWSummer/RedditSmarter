@@ -1,16 +1,14 @@
 import snoowrap from 'snoowrap';
-// import { setENVVars } from '../config';
+
 
 class PostGrabber {
   constructor(target, limit) {
-    // setENVVars();
-    console.log(process.env);
     this.r = new snoowrap({
-      userAgent: process.env.USER_AGENT,
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      username: process.env.USERNAME,
-      password: process.env.PASSWORD
+      userAgent: "Reddit Smarter is a tool for providing insight into karma patterns by subreddit",
+      clientId: "L1P4DbaMoN1kqA",
+      clientSecret: "f89SF6w8jHhLdrlBIJOekEMSXyA",
+      username: "RedditSmarterBot1",
+      password: "UseRedditSmarter"
     });
     this.posts = [];
     this.targetSubreddit = target;
