@@ -1,5 +1,5 @@
-const path = require('path')
-const webpack = require('webpack')
+const path = require('path');
+const webpack = require('webpack');
 
 const config = {
   entry: path.join(__dirname, './public/javascripts/index.js'),
@@ -11,6 +11,6 @@ const config = {
     new webpack.ProgressPlugin()
   ],
   devtool: 'source-map'
-}
+};
 
-module.exports = config
+module.exports = config;
