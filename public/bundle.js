@@ -11628,11 +11628,11 @@ var _snoowrap = __webpack_require__(155);
 
 var _snoowrap2 = _interopRequireDefault(_snoowrap);
 
-var _config = __webpack_require__(334);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// import { setENVVars } from '../../config';
 
 var PostGrabber = function () {
   function PostGrabber(target, limit) {
@@ -11641,7 +11641,7 @@ var PostGrabber = function () {
     _classCallCheck(this, PostGrabber);
 
     if (process.env.NODE_ENV !== 'production') {
-      (0, _config.setENVVars)();
+      setENVVars();
     }
     this.r = new _snoowrap2.default({
       userAgent: process.env.USER_AGENT,
@@ -29530,33 +29530,6 @@ class UserList {
   }
 }
 exports.default = UserList;
-
-/***/ }),
-/* 334 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var setENVVars = exports.setENVVars = function setENVVars() {
-  process.env.USER_AGENT = "Reddit Smarter is a tool for providing insight into karma patterns by subreddit";
-  process.env.CLIENT_ID = "L1P4DbaMoN1kqA";
-  process.env.CLIENT_SECRET = "f89SF6w8jHhLdrlBIJOekEMSXyA";
-  process.env.USERNAME = "RedditSmarterBot1";
-  process.env.PASSWORD = "UseRedditSmarter";
-};
-
-var apiConfig = exports.apiConfig = {
-  userAgent: "Reddit Smarter is a tool for providing insight into karma patterns by subreddit",
-  clientId: "L1P4DbaMoN1kqA",
-  clientSecret: "f89SF6w8jHhLdrlBIJOekEMSXyA",
-  username: "RedditSmarterBot1",
-  password: "UseRedditSmarter"
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ })
 /******/ ]);

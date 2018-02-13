@@ -1,5 +1,5 @@
 import snoowrap from 'snoowrap';
-import { apiConfig, setENVVars } from '../../config';
+// import { setENVVars } from '../../config';
 
 class PostGrabber {
   constructor(target, limit) {
