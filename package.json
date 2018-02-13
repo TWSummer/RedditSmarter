@@ -22,7 +22,7 @@
     "build": "webpack -w",
     "start": "node app.js",
     "start:debug": "DEBUG=* node app.js",
-    "postinstall": "webpack -p"
+    "postinstall": "webpack"
   },
   "engines": {
     "npm": "3.10.10",
