@@ -104,13 +104,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _post_grabber = __webpack_require__(154);
-
-var _post_grabber2 = _interopRequireDefault(_post_grabber);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// import PostGrabber from './post_grabber';
 
 var SearchFeature = function () {
   function SearchFeature() {
@@ -149,7 +145,7 @@ var SearchFeature = function () {
   }, {
     key: "gatherPosts",
     value: function gatherPosts(subredditName) {
-      this.postGrabber = new _post_grabber2.default(subredditName, 2000);
+      // this.postGrabber = new PostGrabber(subredditName, 2000);
     }
   }]);
 
@@ -157,14 +153,6 @@ var SearchFeature = function () {
 }();
 
 exports.default = SearchFeature;
-
-/***/ }),
-
-/***/ 154:
-/***/ (function(module, exports) {
-
-"use strict";
-throw new Error("Module build failed: SyntaxError: Unexpected token (16:8)\n\n\u001b[0m \u001b[90m 14 | \u001b[39m  \u001b[90m//     password: process.env.PASSWORD\u001b[39m\n \u001b[90m 15 | \u001b[39m  \u001b[90m//   });\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 16 | \u001b[39m    \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mposts \u001b[33m=\u001b[39m []\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 17 | \u001b[39m    \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mtargetSubreddit \u001b[33m=\u001b[39m target\u001b[33m;\u001b[39m\n \u001b[90m 18 | \u001b[39m    \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpaused \u001b[33m=\u001b[39m \u001b[36mfalse\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 19 | \u001b[39m    \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mmaxPosts \u001b[33m=\u001b[39m limit\u001b[33m;\u001b[39m\u001b[0m\n");
 
 /***/ })
 
