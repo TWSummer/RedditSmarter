@@ -8,7 +8,7 @@ class SearchFeature {
 
   submitEvent(e) {
     e.preventDefault();
-    if (this.postGrabber) {
+    if (this.postGrabber && !this.postGrabber.paused) {
       this.pausePostLoad();
     }
     this.gatherPosts(e.target[0].value);
@@ -18,7 +18,7 @@ class SearchFeature {
   addPauseButton() {
     if (!this.pauseButton) {
       this.pauseButton = document.createElement("button");
-      this.pauseButton.innerHTML="Pause";
+      this.pauseButton.innerHTML="Pause/Resume";
       this.pauseButton.addEventListener("click", this.pausePostLoad.bind(this));
       let header = document.getElementById("search-header");
       header.appendChild(this.pauseButton);

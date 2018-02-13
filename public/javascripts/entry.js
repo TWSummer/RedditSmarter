@@ -1,6 +1,7 @@
 import SearchFeature from './search_feature';
 
 let p;
+console.log("Good star?");
 
 document.addEventListener("DOMContentLoaded", () => {
   let searchFeature = new SearchFeature();
