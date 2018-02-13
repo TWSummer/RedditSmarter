@@ -31,7 +31,7 @@ class SearchFeature {
 
   gatherPosts (subredditName)
   {
-    this.postGrabber = new PostGrabber(subredditName, 2000);
+    this.postGrabber = new PostGrabber(subredditName, 25000);
   }
 }
 

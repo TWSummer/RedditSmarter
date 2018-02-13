@@ -11697,45 +11697,13 @@ function done(stream, er, data) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__search_feature__ = __webpack_require__(325);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_chart_js__ = __webpack_require__(923);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_chart_js__);
-
 
 
 let p;
 
 document.addEventListener("DOMContentLoaded", () => {
   let searchFeature = new __WEBPACK_IMPORTED_MODULE_0__search_feature__["a" /* default */]();
-
-  var ctx = document.getElementById("total-karma").getContext('2d');
-  var myChart = new __WEBPACK_IMPORTED_MODULE_1_chart_js___default.a(ctx, {
-      type: 'bar',
-      data: {
-          labels: ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
-          datasets: [{
-              label: 'Total Karma',
-              data: [12, 19, 3, 5, 2, 3, 4, 9, 11, 5, 19, 3, 5, 2, 3, 4, 9, 11, 5, 17, 2, 14, 13, 18],
-              backgroundColor: '#0080ff',
-              borderColor: '#000',
-              borderWidth: 3
-          }]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
-                  }
-              }]
-          }
-      }
-  });
-
 });
-
-// let gatherPosts = subredditName => {
-//   p = new PostGrabber(subredditName, 2000);
-// };
 
 
 /***/ }),
@@ -11777,7 +11745,7 @@ class SearchFeature {
 
   gatherPosts (subredditName)
   {
-    this.postGrabber = new __WEBPACK_IMPORTED_MODULE_0__post_grabber__["a" /* default */](subredditName, 2000);
+    this.postGrabber = new __WEBPACK_IMPORTED_MODULE_0__post_grabber__["a" /* default */](subredditName, 25000);
   }
 }
 
@@ -60187,9 +60155,17 @@ module.exports = function(Chart) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__draw_graph__ = __webpack_require__(972);
+
+
 class AnalyzePosts {
   constructor() {
-
+    this.totalKarmaChart = new __WEBPACK_IMPORTED_MODULE_0__draw_graph__["a" /* default */]({
+      data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      elementId: "total-karma",
+      labels: ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+      label: 'Total Karma'
+    });
   }
 
   receivePosts(posts) {
@@ -60199,6 +60175,7 @@ class AnalyzePosts {
 
   createTotalKarmaGraph(posts) {
     let data = this.sumTotalKarmaByTime(posts);
+    this.totalKarmaChart.updateData(data);
   }
 
   sumTotalKarmaByTime(posts) {
@@ -60210,10 +60187,57 @@ class AnalyzePosts {
       let date = new Date(posts[i].created_utc * 1000);
       result[date.getHours()] += posts[i].score;
     }
+    return result;
   }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (AnalyzePosts);
+
+
+/***/ }),
+/* 972 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(923);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
+
+
+class DrawGraph {
+  constructor(params) {
+    let ctx = document.getElementById(params.elementId).getContext('2d');
+    this.myChart = new __WEBPACK_IMPORTED_MODULE_0_chart_js___default.a(ctx, {
+        type: 'bar',
+        data: {
+            labels: params.labels,
+            datasets: [{
+                label: params.label,
+                data: params.data,
+                backgroundColor: '#0080ff',
+                borderColor: '#000',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+  }
+
+  updateData(data) {
+    console.log(this.myChart);
+    this.myChart.config.data.datasets[0].data = data;
+    this.myChart.update();
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (DrawGraph);
 
 
 /***/ })
