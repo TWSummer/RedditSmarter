@@ -3,6 +3,7 @@ import SearchFeature from './search_feature';
 let p;
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log(process.env);
   let searchFeature = new SearchFeature();
   let hw = document.createElement("P");
   hw.innerHTML = "Hello World";
