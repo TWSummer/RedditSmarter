@@ -76,4 +76,4 @@ graph.js: Will handle rendering of each graph
 ### Bonus Features
 
 - [ ] Add graph showing how number of characters in post title impacts average karma
-- [ ] Allow users to search for a username rather than a subreddit. For that username show graphs of number of posts by subreddit, average karma per post by subreddit (where the user has made at least a certain number of posts), average karma by time of day, and total karma over time.
+- [ ] Allow users to search for a username rather than a subreddit. For that username show graphs of number of posts by subreddit, average karma per post by subreddit (where the user has made at least a certain number of posts), average karma by time of day, and total karma over time.  
