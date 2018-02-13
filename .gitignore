@@ -11,3 +11,5 @@
 
 .byebug_history
 config.js
+bundle.js
+bundle.js.map
