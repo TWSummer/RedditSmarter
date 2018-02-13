@@ -24,7 +24,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -w",
     "start": "node app.js",
-    "start:debug": "DEBUG=* node app.js"
+    "start:debug": "DEBUG=* node app.js",
+    "postinstall": "webpack"
   },
   "engines": {
     "npm": "3.10.10",
