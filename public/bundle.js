@@ -11524,13 +11524,12 @@ function done(stream, er, data) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__search_feature__ = __webpack_require__(153);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__search_feature__ = __webpack_require__(153);
 
 
 let p;
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log(process.env);
   let searchFeature = new __WEBPACK_IMPORTED_MODULE_0__search_feature__["a" /* default */]();
   let hw = document.createElement("P");
   hw.innerHTML = "Hello World";
@@ -11541,7 +11540,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //   p = new PostGrabber(subredditName, 2000);
 // };
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(15)))
 
 /***/ }),
 /* 153 */
