@@ -2,17 +2,17 @@ import snoowrap from 'snoowrap';
 // import { setENVVars } from '../../config';
 
 class PostGrabber {
-  constructor(target, limit) {
-    if (process.env.NODE_ENV !== 'production') {
-      setENVVars();
-    }
-    this.r = new snoowrap({
-      userAgent: process.env.USER_AGENT,
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      username: process.env.USERNAME,
-      password: process.env.PASSWORD
-    });
+  // constructor(target, limit) {
+  //   if (process.env.NODE_ENV !== 'production') {
+  //     setENVVars();
+  //   }
+  //   this.r = new snoowrap({
+  //     userAgent: process.env.USER_AGENT,
+  //     clientId: process.env.CLIENT_ID,
+  //     clientSecret: process.env.CLIENT_SECRET,
+  //     username: process.env.USERNAME,
+  //     password: process.env.PASSWORD
+  //   });
     this.posts = [];
     this.targetSubreddit = target;
     this.paused = false;
