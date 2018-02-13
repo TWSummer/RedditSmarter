@@ -214,7 +214,7 @@ var _util = __webpack_require__(127);
 
 var _util2 = _interopRequireDefault(_util);
 
-var _constants = __webpack_require__(12);
+var _constants = __webpack_require__(13);
 
 var _More = __webpack_require__(50);
 
@@ -501,1121 +501,6 @@ module.exports = isArrayLike;
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseMatches = __webpack_require__(174),
-    baseMatchesProperty = __webpack_require__(217),
-    identity = __webpack_require__(28),
-    isArray = __webpack_require__(0),
-    property = __webpack_require__(105);
-
-/**
- * The base implementation of `_.iteratee`.
- *
- * @private
- * @param {*} [value=_.identity] The value to convert to an iteratee.
- * @returns {Function} Returns the iteratee.
- */
-function baseIteratee(value) {
-  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
-  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
-  if (typeof value == 'function') {
-    return value;
-  }
-  if (value == null) {
-    return identity;
-  }
-  if (typeof value == 'object') {
-    return isArray(value)
-      ? baseMatchesProperty(value[0], value[1])
-      : baseMatches(value);
-  }
-  return property(value);
-}
-
-module.exports = baseIteratee;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _bluebird = __webpack_require__(259);
-
-var _bluebird2 = _interopRequireDefault(_bluebird);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PromiseCopy = _bluebird2.default.getNewLibraryCopy();
-PromiseCopy.config({ cancellation: true, warnings: false });
-exports.default = PromiseCopy;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeKeys = __webpack_require__(88),
-    baseKeys = __webpack_require__(90),
-    isArrayLike = __webpack_require__(6);
-
-/**
- * Creates an array of the own enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
- * for more details.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keys(new Foo);
- * // => ['a', 'b'] (iteration order is not guaranteed)
- *
- * _.keys('hi');
- * // => ['0', '1']
- */
-function keys(object) {
-  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
-}
-
-module.exports = keys;
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(15),
-    getRawTag = __webpack_require__(159),
-    objectToString = __webpack_require__(160);
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseIsNative = __webpack_require__(186),
-    getValue = __webpack_require__(189);
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = getValue(object, key);
-  return baseIsNative(value) ? value : undefined;
-}
-
-module.exports = getNative;
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var MODULE_NAME = exports.MODULE_NAME = 'snoowrap';
-var VERSION = exports.VERSION = '1.15.2';
-var DOCS_LINK = exports.DOCS_LINK = 'https://not-an-aardvark.github.io/snoowrap/';
-var API_RULES_LINK = exports.API_RULES_LINK = 'https://github.com/reddit/reddit/wiki/API';
-/* USER_KEYS and SUBREDDIT_KEYS are keys that are replaced by RedditUser and Subreddit objects when encountered in
-`snoowrap#_populate`. `author`, `approved_by`, `banned_by`, and `subreddit` all appear in fetched Submissions, among other
-places. `user` appears in responses from the api/flairlist endpoint, and `sr` appears in responses from the `api/v1/me/karma`
-endpoint. */
-var USER_KEYS = exports.USER_KEYS = new Set(['author', 'approved_by', 'banned_by', 'user']);
-var SUBREDDIT_KEYS = exports.SUBREDDIT_KEYS = new Set(['subreddit', 'sr']);
-var KINDS = exports.KINDS = {
-  t1: 'Comment',
-  t2: 'RedditUser',
-  t3: 'Submission',
-  t4: 'PrivateMessage',
-  t5: 'Subreddit',
-  t6: 'Trophy',
-  t8: 'PromoCampaign',
-  Listing: 'Listing',
-  more: 'More',
-  UserList: 'UserList',
-  KarmaList: 'KarmaList',
-  TrophyList: 'TrophyList',
-  subreddit_settings: 'SubredditSettings',
-  modaction: 'ModAction',
-  wikipage: 'WikiPage',
-  wikipagesettings: 'WikiPageSettings',
-  wikipagelisting: 'WikiPageListing',
-  LiveUpdateEvent: 'LiveThread',
-  LiveUpdate: 'LiveUpdate',
-  LabeledMulti: 'MultiReddit'
-};
-var USERNAME_REGEX = exports.USERNAME_REGEX = /^[\w-]{1,20}$/;
-var MODERATOR_PERMISSIONS = exports.MODERATOR_PERMISSIONS = ['wiki', 'posts', 'access', 'mail', 'config', 'flair'];
-var LIVETHREAD_PERMISSIONS = exports.LIVETHREAD_PERMISSIONS = ['update', 'edit', 'manage'];
-var HTTP_VERBS = exports.HTTP_VERBS = ['delete', 'get', 'head', 'patch', 'post', 'put'];
-var IDEMPOTENT_HTTP_VERBS = exports.IDEMPOTENT_HTTP_VERBS = ['delete', 'get', 'head', 'put'];
-var MAX_TOKEN_LATENCY = exports.MAX_TOKEN_LATENCY = 10000;
-var MAX_API_INFO_AMOUNT = exports.MAX_API_INFO_AMOUNT = 100;
-var MAX_API_MORECHILDREN_AMOUNT = exports.MAX_API_MORECHILDREN_AMOUNT = 20;
-var MAX_LISTING_ITEMS = exports.MAX_LISTING_ITEMS = 100;
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _pick2 = __webpack_require__(81);
-
-var _pick3 = _interopRequireDefault(_pick2);
-
-var _mapValues2 = __webpack_require__(119);
-
-var _mapValues3 = _interopRequireDefault(_mapValues2);
-
-var _cloneDeep2 = __webpack_require__(305);
-
-var _cloneDeep3 = _interopRequireDefault(_cloneDeep2);
-
-var _Promise = __webpack_require__(8);
-
-var _Promise2 = _interopRequireDefault(_Promise);
-
-var _util = __webpack_require__(144);
-
-var _util2 = _interopRequireDefault(_util);
-
-var _helpers = __webpack_require__(3);
-
-var _constants = __webpack_require__(12);
-
-var _Listing = __webpack_require__(82);
-
-var _Listing2 = _interopRequireDefault(_Listing);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
-* A base class for content from reddit. With the expection of Listings, all content types extend this class.
-* This class should be considered 'abstract', to the extend that JavaScript classes can be -- it should not be necessary to
-* instantiate it directly.
-* <style> #RedditContent {display: none} </style>
-*/
-var RedditContent = class RedditContent {
-  constructor(options, _r, _hasFetched) {
-    // _r refers to the snoowrap requester that is used to fetch this content.
-    this._r = _r;
-    this._fetch = null;
-    this._hasFetched = !!_hasFetched;
-    Object.assign(this, options);
-    if (typeof Proxy !== 'undefined' && !this._hasFetched && _r._config.proxies) {
-      return new Proxy(this, { get(target, key) {
-          return key in target || key === 'length' || key in _Promise2.default.prototype ? target[key] : target.fetch()[key];
-        } });
-    }
-  }
-  /**
-  * @summary Fetches this content from reddit.
-  * @desc This will not mutate the original content object; all Promise properties will remain as Promises after the content has
-  * been fetched. However, the information on this object will be cached, so it may become out-of-date with the content on
-  * reddit. To clear the cache and fetch this object from reddit again, use `refresh()`.
-  *
-  * If snoowrap is running in an environment that supports ES2015 Proxies (e.g. Chrome 49+), then `fetch()` will get
-  * automatically called when an unknown property is accessed on an unfetched content object.
-  * @returns {Promise} A version of this object with all of its fetched properties from reddit. This will not mutate the
-  object. Once an object has been fetched once, its properties will be cached, so they might end up out-of-date if this
-  function is called again. To refresh an object, use refresh().
-  * @example
-  *
-  * r.getUser('not_an_aardvark').fetch().then(userInfo => {
-  *   console.log(userInfo.name); // 'not_an_aardvark'
-  *   console.log(userInfo.created_utc); // 1419104352
-  * });
-  *
-  * r.getComment('d1xchqn').fetch().then(comment => comment.body).then(console.log)
-  * // => 'This is a little too interesting for my liking'
-  *
-  * // In environments that support ES2015 Proxies, the above line is equivalent to:
-  * r.getComment('d1xchqn').body.then(console.log);
-  * // => 'This is a little too interesting for my liking'
-  */
-  fetch() {
-    var _this = this;
-
-    if (!this._fetch) {
-      this._fetch = this._r._promiseWrap(this._r._get({ uri: this._uri }).then(function (res) {
-        return _this._transformApiResponse(res);
-      }));
-    }
-    return this._fetch;
-  }
-  /**
-  * @summary Refreshes this content.
-  * @returns {Promise} A newly-fetched version of this content
-  * @example
-  *
-  * var someComment = r.getComment('cmfkyus');
-  * var initialCommentBody = some_comment.fetch().then(comment => comment.body);
-  *
-  * setTimeout(() => {
-  *   someComment.refresh().then(refreshedComment => {
-  *     if (initialCommentBody.value() !== refreshedComment.body) {
-  *       console.log('This comment has changed since 10 seconds ago.');
-  *     }
-  *   });
-  * }, 10000);
-  */
-  refresh() {
-    this._fetch = null;
-    return this.fetch();
-  }
-  /**
-  * @summary Returns a stringifyable version of this object.
-  * @desc It is usually not necessary to call this method directly; simply running JSON.stringify(some_object) will strip the
-  private properties anyway.
-  * @returns {object} A version of this object with all the private properties stripped
-  * @example
-  *
-  * var user = r.getUser('not_an_aardvark');
-  * JSON.stringify(user) // => '{"name":"not_an_aardvark"}'
-  */
-  toJSON() {
-    return (0, _mapValues3.default)(this._stripPrivateProps(), function (value, key) {
-      if (value instanceof RedditContent && !value._hasFetched) {
-        if (value.constructor._name === 'RedditUser' && _constants.USER_KEYS.has(key)) {
-          return value.name;
-        }
-        if (value.constructor._name === 'Subreddit' && _constants.SUBREDDIT_KEYS.has(key)) {
-          return value.display_name;
-        }
-      }
-      return value && value.toJSON ? value.toJSON() : value;
-    });
-  }
-  _stripPrivateProps() {
-    return (0, _pick3.default)(this, Object.keys(this).filter(function (key) {
-      return !key.startsWith('_');
-    }));
-  }
-  _transformApiResponse(response) {
-    return response;
-  }
-  _clone() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$deep = _ref.deep,
-        deep = _ref$deep === undefined ? false : _ref$deep;
-
-    var clonedProps = (0, _mapValues3.default)(this, function (value) {
-      if (deep) {
-        return value instanceof RedditContent || value instanceof _Listing2.default ? value._clone({ deep }) : (0, _cloneDeep3.default)(value);
-      }
-      return value;
-    });
-    return this._r._newObject(this.constructor._name, clonedProps, this._hasFetched);
-  }
-  _getListing() {
-    var _r2;
-
-    return (_r2 = this._r)._getListing.apply(_r2, arguments);
-  }
-};
-
-(0, _helpers.defineInspectFunc)(RedditContent.prototype, function () {
-  return this.constructor._name + ' ' + _util2.default.inspect(this._stripPrivateProps());
-});
-
-_constants.HTTP_VERBS.forEach(function (method) {
-  Object.defineProperty(RedditContent.prototype, '_' + method, { value() {
-      var _r3;
-
-      return (_r3 = this._r)['_' + method].apply(_r3, arguments);
-    }, configurable: true, writable: true });
-});
-
-exports.default = RedditContent;
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// a duplex stream is just a stream that is both readable and writable.
-// Since JS doesn't have multiple prototypal inheritance, this class
-// prototypally inherits from Readable, and then parasitically from
-// Writable.
-
-
-
-/*<replacement>*/
-
-var processNextTick = __webpack_require__(52).nextTick;
-/*</replacement>*/
-
-/*<replacement>*/
-var objectKeys = Object.keys || function (obj) {
-  var keys = [];
-  for (var key in obj) {
-    keys.push(key);
-  }return keys;
-};
-/*</replacement>*/
-
-module.exports = Duplex;
-
-/*<replacement>*/
-var util = __webpack_require__(33);
-util.inherits = __webpack_require__(22);
-/*</replacement>*/
-
-var Readable = __webpack_require__(145);
-var Writable = __webpack_require__(86);
-
-util.inherits(Duplex, Readable);
-
-var keys = objectKeys(Writable.prototype);
-for (var v = 0; v < keys.length; v++) {
-  var method = keys[v];
-  if (!Duplex.prototype[method]) Duplex.prototype[method] = Writable.prototype[method];
-}
-
-function Duplex(options) {
-  if (!(this instanceof Duplex)) return new Duplex(options);
-
-  Readable.call(this, options);
-  Writable.call(this, options);
-
-  if (options && options.readable === false) this.readable = false;
-
-  if (options && options.writable === false) this.writable = false;
-
-  this.allowHalfOpen = true;
-  if (options && options.allowHalfOpen === false) this.allowHalfOpen = false;
-
-  this.once('end', onend);
-}
-
-// the no-half-open enforcer
-function onend() {
-  // if we allow half-open state, or if the writable side ended,
-  // then we're ok.
-  if (this.allowHalfOpen || this._writableState.ended) return;
-
-  // no more data can be written.
-  // But allow more writes to happen in this tick.
-  processNextTick(onEndNT, this);
-}
-
-function onEndNT(self) {
-  self.end();
-}
-
-Object.defineProperty(Duplex.prototype, 'destroyed', {
-  get: function () {
-    if (this._readableState === undefined || this._writableState === undefined) {
-      return false;
-    }
-    return this._readableState.destroyed && this._writableState.destroyed;
-  },
-  set: function (value) {
-    // we ignore the value if the stream
-    // has not been initialized yet
-    if (this._readableState === undefined || this._writableState === undefined) {
-      return;
-    }
-
-    // backward compatibility, the user is explicitly
-    // managing destroyed
-    this._readableState.destroyed = value;
-    this._writableState.destroyed = value;
-  }
-});
-
-Duplex.prototype._destroy = function (err, cb) {
-  this.push(null);
-  this.end();
-
-  processNextTick(cb, err);
-};
-
-function forEach(xs, f) {
-  for (var i = 0, l = xs.length; i < l; i++) {
-    f(xs[i], i);
-  }
-}
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(1);
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  var type = typeof value;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-
-  return !!length &&
-    (type == 'number' ||
-      (type != 'symbol' && reIsUint.test(value))) &&
-        (value > -1 && value % 1 == 0 && value < length);
-}
-
-module.exports = isIndex;
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-/**
- * Performs a
- * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * comparison between two values to determine if they are equivalent.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- * @example
- *
- * var object = { 'a': 1 };
- * var other = { 'a': 1 };
- *
- * _.eq(object, object);
- * // => true
- *
- * _.eq(object, other);
- * // => false
- *
- * _.eq('a', 'a');
- * // => true
- *
- * _.eq('a', Object('a'));
- * // => false
- *
- * _.eq(NaN, NaN);
- * // => true
- */
-function eq(value, other) {
-  return value === other || (value !== value && other !== other);
-}
-
-module.exports = eq;
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isArray = __webpack_require__(0),
-    isKey = __webpack_require__(62),
-    stringToPath = __webpack_require__(219),
-    toString = __webpack_require__(58);
-
-/**
- * Casts `value` to a path array if it's not one.
- *
- * @private
- * @param {*} value The value to inspect.
- * @param {Object} [object] The object to query keys on.
- * @returns {Array} Returns the cast property path array.
- */
-function castPath(value, object) {
-  if (isArray(value)) {
-    return value;
-  }
-  return isKey(value, object) ? [value] : stringToPath(toString(value));
-}
-
-module.exports = castPath;
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isSymbol = __webpack_require__(36);
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/**
- * Converts `value` to a string key if it's not a string or symbol.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {string|symbol} Returns the key.
- */
-function toKey(value) {
-  if (typeof value == 'string' || isSymbol(value)) {
-    return value;
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-module.exports = toKey;
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var assignValue = __webpack_require__(63),
-    baseAssignValue = __webpack_require__(29);
-
-/**
- * Copies properties of `source` to `object`.
- *
- * @private
- * @param {Object} source The object to copy properties from.
- * @param {Array} props The property identifiers to copy.
- * @param {Object} [object={}] The object to copy properties to.
- * @param {Function} [customizer] The function to customize copied values.
- * @returns {Object} Returns `object`.
- */
-function copyObject(source, props, object, customizer) {
-  var isNew = !object;
-  object || (object = {});
-
-  var index = -1,
-      length = props.length;
-
-  while (++index < length) {
-    var key = props[index];
-
-    var newValue = customizer
-      ? customizer(object[key], source[key], key, object, source)
-      : undefined;
-
-    if (newValue === undefined) {
-      newValue = source[key];
-    }
-    if (isNew) {
-      baseAssignValue(object, key, newValue);
-    } else {
-      assignValue(object, key, newValue);
-    }
-  }
-  return object;
-}
-
-module.exports = copyObject;
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.StatusCodeError = exports.RequestError = exports.InvalidMethodCallError = exports.NoCredentialsError = exports.InvalidUserError = exports.RateLimitError = undefined;
-exports.rateLimitWarning = rateLimitWarning;
-
-var _constants = __webpack_require__(12);
-
-class RateLimitError extends Error {
-  constructor() {
-    super(_constants.MODULE_NAME + ' refused to continue because reddit\'s ratelimit was exceeded. For more information about reddit\'s ratelimit, please consult reddit\'s API rules at ' + _constants.API_RULES_LINK + '.');
-  }
-}
-
-exports.RateLimitError = RateLimitError; /* eslint-disable max-len */
-
-class InvalidUserError extends Error {
-  constructor() {
-    var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Cannot fetch information on the given user. Please be sure you have the right username.';
-
-    super(message);
-  }
-}
-
-exports.InvalidUserError = InvalidUserError;
-class NoCredentialsError extends Error {
-  constructor() {
-    var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Missing credentials passed to ' + _constants.MODULE_NAME + ' constructor. You must pass an object containing either (a) userAgent, clientId, clientSecret, and refreshToken properties, (b) userAgent and accessToken properties, or (c) userAgent, clientId, clientSecret, username, and password properties. For information, please read the docs at ' + _constants.DOCS_LINK + '.';
-
-    super(message);
-  }
-}
-
-exports.NoCredentialsError = NoCredentialsError;
-class InvalidMethodCallError extends Error {}
-exports.InvalidMethodCallError = InvalidMethodCallError;
-class RequestError extends Error {}
-exports.RequestError = RequestError;
-class StatusCodeError extends Error {}
-
-exports.StatusCodeError = StatusCodeError;
-function rateLimitWarning(millisecondsUntilReset) {
-  return 'Warning: ' + _constants.MODULE_NAME + ' temporarily stopped sending requests because reddit\'s ratelimit was exceeded. The request you attempted to send was queued, and will be sent to reddit when the current ratelimit period expires in ' + millisecondsUntilReset / 1000 + ' seconds.';
-}
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports) {
-
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-/**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap(array, iteratee) {
-  var index = -1,
-      length = array == null ? 0 : array.length,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-module.exports = arrayMap;
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseIsArguments = __webpack_require__(158),
-    isObjectLike = __webpack_require__(5);
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Built-in value references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an `arguments` object,
- *  else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
-  return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
-    !propertyIsEnumerable.call(value, 'callee');
-};
-
-module.exports = isArguments;
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(1),
-    stubFalse = __webpack_require__(161);
-
-/** Detect free variable `exports`. */
-var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
-
-/** Detect free variable `module`. */
-var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
-
-/** Detect the popular CommonJS extension `module.exports`. */
-var moduleExports = freeModule && freeModule.exports === freeExports;
-
-/** Built-in value references. */
-var Buffer = moduleExports ? root.Buffer : undefined;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
-
-/**
- * Checks if `value` is a buffer.
- *
- * @static
- * @memberOf _
- * @since 4.3.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
- * @example
- *
- * _.isBuffer(new Buffer(2));
- * // => true
- *
- * _.isBuffer(new Uint8Array(2));
- * // => false
- */
-var isBuffer = nativeIsBuffer || stubFalse;
-
-module.exports = isBuffer;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DataView = __webpack_require__(213),
-    Map = __webpack_require__(59),
-    Promise = __webpack_require__(214),
-    Set = __webpack_require__(215),
-    WeakMap = __webpack_require__(101),
-    baseGetTag = __webpack_require__(10),
-    toSource = __webpack_require__(94);
-
-/** `Object#toString` result references. */
-var mapTag = '[object Map]',
-    objectTag = '[object Object]',
-    promiseTag = '[object Promise]',
-    setTag = '[object Set]',
-    weakMapTag = '[object WeakMap]';
-
-var dataViewTag = '[object DataView]';
-
-/** Used to detect maps, sets, and weakmaps. */
-var dataViewCtorString = toSource(DataView),
-    mapCtorString = toSource(Map),
-    promiseCtorString = toSource(Promise),
-    setCtorString = toSource(Set),
-    weakMapCtorString = toSource(WeakMap);
-
-/**
- * Gets the `toStringTag` of `value`.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-var getTag = baseGetTag;
-
-// Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
-if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
-    (Map && getTag(new Map) != mapTag) ||
-    (Promise && getTag(Promise.resolve()) != promiseTag) ||
-    (Set && getTag(new Set) != setTag) ||
-    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
-  getTag = function(value) {
-    var result = baseGetTag(value),
-        Ctor = result == objectTag ? value.constructor : undefined,
-        ctorString = Ctor ? toSource(Ctor) : '';
-
-    if (ctorString) {
-      switch (ctorString) {
-        case dataViewCtorString: return dataViewTag;
-        case mapCtorString: return mapTag;
-        case promiseCtorString: return promiseTag;
-        case setCtorString: return setTag;
-        case weakMapCtorString: return weakMapTag;
-      }
-    }
-    return result;
-  };
-}
-
-module.exports = getTag;
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-/**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var defineProperty = __webpack_require__(107);
-
-/**
- * The base implementation of `assignValue` and `assignMergeValue` without
- * value checks.
- *
- * @private
- * @param {Object} object The object to modify.
- * @param {string} key The key of the property to assign.
- * @param {*} value The value to assign.
- */
-function baseAssignValue(object, key, value) {
-  if (key == '__proto__' && defineProperty) {
-    defineProperty(object, key, {
-      'configurable': true,
-      'enumerable': true,
-      'value': value,
-      'writable': true
-    });
-  } else {
-    object[key] = value;
-  }
-}
-
-module.exports = baseAssignValue;
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeKeys = __webpack_require__(88),
-    baseKeysIn = __webpack_require__(229),
-    isArrayLike = __webpack_require__(6);
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
-}
-
-module.exports = keysIn;
-
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-/**
- * Copies the values of `source` to `array`.
- *
- * @private
- * @param {Array} source The array to copy values from.
- * @param {Array} [array=[]] The array to copy values to.
- * @returns {Array} Returns `array`.
- */
-function copyArray(source, array) {
-  var index = -1,
-      length = source.length;
-
-  array || (array = Array(length));
-  while (++index < length) {
-    array[index] = source[index];
-  }
-  return array;
-}
-
-module.exports = copyArray;
-
-
-/***/ }),
-/* 32 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1805,6 +690,1121 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseMatches = __webpack_require__(174),
+    baseMatchesProperty = __webpack_require__(217),
+    identity = __webpack_require__(29),
+    isArray = __webpack_require__(0),
+    property = __webpack_require__(105);
+
+/**
+ * The base implementation of `_.iteratee`.
+ *
+ * @private
+ * @param {*} [value=_.identity] The value to convert to an iteratee.
+ * @returns {Function} Returns the iteratee.
+ */
+function baseIteratee(value) {
+  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
+  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
+  if (typeof value == 'function') {
+    return value;
+  }
+  if (value == null) {
+    return identity;
+  }
+  if (typeof value == 'object') {
+    return isArray(value)
+      ? baseMatchesProperty(value[0], value[1])
+      : baseMatches(value);
+  }
+  return property(value);
+}
+
+module.exports = baseIteratee;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _bluebird = __webpack_require__(259);
+
+var _bluebird2 = _interopRequireDefault(_bluebird);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PromiseCopy = _bluebird2.default.getNewLibraryCopy();
+PromiseCopy.config({ cancellation: true, warnings: false });
+exports.default = PromiseCopy;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayLikeKeys = __webpack_require__(88),
+    baseKeys = __webpack_require__(90),
+    isArrayLike = __webpack_require__(6);
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+function keys(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+}
+
+module.exports = keys;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__(16),
+    getRawTag = __webpack_require__(159),
+    objectToString = __webpack_require__(160);
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseIsNative = __webpack_require__(186),
+    getValue = __webpack_require__(189);
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+module.exports = getNative;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var MODULE_NAME = exports.MODULE_NAME = 'snoowrap';
+var VERSION = exports.VERSION = '1.15.2';
+var DOCS_LINK = exports.DOCS_LINK = 'https://not-an-aardvark.github.io/snoowrap/';
+var API_RULES_LINK = exports.API_RULES_LINK = 'https://github.com/reddit/reddit/wiki/API';
+/* USER_KEYS and SUBREDDIT_KEYS are keys that are replaced by RedditUser and Subreddit objects when encountered in
+`snoowrap#_populate`. `author`, `approved_by`, `banned_by`, and `subreddit` all appear in fetched Submissions, among other
+places. `user` appears in responses from the api/flairlist endpoint, and `sr` appears in responses from the `api/v1/me/karma`
+endpoint. */
+var USER_KEYS = exports.USER_KEYS = new Set(['author', 'approved_by', 'banned_by', 'user']);
+var SUBREDDIT_KEYS = exports.SUBREDDIT_KEYS = new Set(['subreddit', 'sr']);
+var KINDS = exports.KINDS = {
+  t1: 'Comment',
+  t2: 'RedditUser',
+  t3: 'Submission',
+  t4: 'PrivateMessage',
+  t5: 'Subreddit',
+  t6: 'Trophy',
+  t8: 'PromoCampaign',
+  Listing: 'Listing',
+  more: 'More',
+  UserList: 'UserList',
+  KarmaList: 'KarmaList',
+  TrophyList: 'TrophyList',
+  subreddit_settings: 'SubredditSettings',
+  modaction: 'ModAction',
+  wikipage: 'WikiPage',
+  wikipagesettings: 'WikiPageSettings',
+  wikipagelisting: 'WikiPageListing',
+  LiveUpdateEvent: 'LiveThread',
+  LiveUpdate: 'LiveUpdate',
+  LabeledMulti: 'MultiReddit'
+};
+var USERNAME_REGEX = exports.USERNAME_REGEX = /^[\w-]{1,20}$/;
+var MODERATOR_PERMISSIONS = exports.MODERATOR_PERMISSIONS = ['wiki', 'posts', 'access', 'mail', 'config', 'flair'];
+var LIVETHREAD_PERMISSIONS = exports.LIVETHREAD_PERMISSIONS = ['update', 'edit', 'manage'];
+var HTTP_VERBS = exports.HTTP_VERBS = ['delete', 'get', 'head', 'patch', 'post', 'put'];
+var IDEMPOTENT_HTTP_VERBS = exports.IDEMPOTENT_HTTP_VERBS = ['delete', 'get', 'head', 'put'];
+var MAX_TOKEN_LATENCY = exports.MAX_TOKEN_LATENCY = 10000;
+var MAX_API_INFO_AMOUNT = exports.MAX_API_INFO_AMOUNT = 100;
+var MAX_API_MORECHILDREN_AMOUNT = exports.MAX_API_MORECHILDREN_AMOUNT = 20;
+var MAX_LISTING_ITEMS = exports.MAX_LISTING_ITEMS = 100;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _pick2 = __webpack_require__(81);
+
+var _pick3 = _interopRequireDefault(_pick2);
+
+var _mapValues2 = __webpack_require__(119);
+
+var _mapValues3 = _interopRequireDefault(_mapValues2);
+
+var _cloneDeep2 = __webpack_require__(305);
+
+var _cloneDeep3 = _interopRequireDefault(_cloneDeep2);
+
+var _Promise = __webpack_require__(9);
+
+var _Promise2 = _interopRequireDefault(_Promise);
+
+var _util = __webpack_require__(144);
+
+var _util2 = _interopRequireDefault(_util);
+
+var _helpers = __webpack_require__(3);
+
+var _constants = __webpack_require__(13);
+
+var _Listing = __webpack_require__(82);
+
+var _Listing2 = _interopRequireDefault(_Listing);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+* A base class for content from reddit. With the expection of Listings, all content types extend this class.
+* This class should be considered 'abstract', to the extend that JavaScript classes can be -- it should not be necessary to
+* instantiate it directly.
+* <style> #RedditContent {display: none} </style>
+*/
+var RedditContent = class RedditContent {
+  constructor(options, _r, _hasFetched) {
+    // _r refers to the snoowrap requester that is used to fetch this content.
+    this._r = _r;
+    this._fetch = null;
+    this._hasFetched = !!_hasFetched;
+    Object.assign(this, options);
+    if (typeof Proxy !== 'undefined' && !this._hasFetched && _r._config.proxies) {
+      return new Proxy(this, { get(target, key) {
+          return key in target || key === 'length' || key in _Promise2.default.prototype ? target[key] : target.fetch()[key];
+        } });
+    }
+  }
+  /**
+  * @summary Fetches this content from reddit.
+  * @desc This will not mutate the original content object; all Promise properties will remain as Promises after the content has
+  * been fetched. However, the information on this object will be cached, so it may become out-of-date with the content on
+  * reddit. To clear the cache and fetch this object from reddit again, use `refresh()`.
+  *
+  * If snoowrap is running in an environment that supports ES2015 Proxies (e.g. Chrome 49+), then `fetch()` will get
+  * automatically called when an unknown property is accessed on an unfetched content object.
+  * @returns {Promise} A version of this object with all of its fetched properties from reddit. This will not mutate the
+  object. Once an object has been fetched once, its properties will be cached, so they might end up out-of-date if this
+  function is called again. To refresh an object, use refresh().
+  * @example
+  *
+  * r.getUser('not_an_aardvark').fetch().then(userInfo => {
+  *   console.log(userInfo.name); // 'not_an_aardvark'
+  *   console.log(userInfo.created_utc); // 1419104352
+  * });
+  *
+  * r.getComment('d1xchqn').fetch().then(comment => comment.body).then(console.log)
+  * // => 'This is a little too interesting for my liking'
+  *
+  * // In environments that support ES2015 Proxies, the above line is equivalent to:
+  * r.getComment('d1xchqn').body.then(console.log);
+  * // => 'This is a little too interesting for my liking'
+  */
+  fetch() {
+    var _this = this;
+
+    if (!this._fetch) {
+      this._fetch = this._r._promiseWrap(this._r._get({ uri: this._uri }).then(function (res) {
+        return _this._transformApiResponse(res);
+      }));
+    }
+    return this._fetch;
+  }
+  /**
+  * @summary Refreshes this content.
+  * @returns {Promise} A newly-fetched version of this content
+  * @example
+  *
+  * var someComment = r.getComment('cmfkyus');
+  * var initialCommentBody = some_comment.fetch().then(comment => comment.body);
+  *
+  * setTimeout(() => {
+  *   someComment.refresh().then(refreshedComment => {
+  *     if (initialCommentBody.value() !== refreshedComment.body) {
+  *       console.log('This comment has changed since 10 seconds ago.');
+  *     }
+  *   });
+  * }, 10000);
+  */
+  refresh() {
+    this._fetch = null;
+    return this.fetch();
+  }
+  /**
+  * @summary Returns a stringifyable version of this object.
+  * @desc It is usually not necessary to call this method directly; simply running JSON.stringify(some_object) will strip the
+  private properties anyway.
+  * @returns {object} A version of this object with all the private properties stripped
+  * @example
+  *
+  * var user = r.getUser('not_an_aardvark');
+  * JSON.stringify(user) // => '{"name":"not_an_aardvark"}'
+  */
+  toJSON() {
+    return (0, _mapValues3.default)(this._stripPrivateProps(), function (value, key) {
+      if (value instanceof RedditContent && !value._hasFetched) {
+        if (value.constructor._name === 'RedditUser' && _constants.USER_KEYS.has(key)) {
+          return value.name;
+        }
+        if (value.constructor._name === 'Subreddit' && _constants.SUBREDDIT_KEYS.has(key)) {
+          return value.display_name;
+        }
+      }
+      return value && value.toJSON ? value.toJSON() : value;
+    });
+  }
+  _stripPrivateProps() {
+    return (0, _pick3.default)(this, Object.keys(this).filter(function (key) {
+      return !key.startsWith('_');
+    }));
+  }
+  _transformApiResponse(response) {
+    return response;
+  }
+  _clone() {
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        _ref$deep = _ref.deep,
+        deep = _ref$deep === undefined ? false : _ref$deep;
+
+    var clonedProps = (0, _mapValues3.default)(this, function (value) {
+      if (deep) {
+        return value instanceof RedditContent || value instanceof _Listing2.default ? value._clone({ deep }) : (0, _cloneDeep3.default)(value);
+      }
+      return value;
+    });
+    return this._r._newObject(this.constructor._name, clonedProps, this._hasFetched);
+  }
+  _getListing() {
+    var _r2;
+
+    return (_r2 = this._r)._getListing.apply(_r2, arguments);
+  }
+};
+
+(0, _helpers.defineInspectFunc)(RedditContent.prototype, function () {
+  return this.constructor._name + ' ' + _util2.default.inspect(this._stripPrivateProps());
+});
+
+_constants.HTTP_VERBS.forEach(function (method) {
+  Object.defineProperty(RedditContent.prototype, '_' + method, { value() {
+      var _r3;
+
+      return (_r3 = this._r)['_' + method].apply(_r3, arguments);
+    }, configurable: true, writable: true });
+});
+
+exports.default = RedditContent;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// a duplex stream is just a stream that is both readable and writable.
+// Since JS doesn't have multiple prototypal inheritance, this class
+// prototypally inherits from Readable, and then parasitically from
+// Writable.
+
+
+
+/*<replacement>*/
+
+var processNextTick = __webpack_require__(52).nextTick;
+/*</replacement>*/
+
+/*<replacement>*/
+var objectKeys = Object.keys || function (obj) {
+  var keys = [];
+  for (var key in obj) {
+    keys.push(key);
+  }return keys;
+};
+/*</replacement>*/
+
+module.exports = Duplex;
+
+/*<replacement>*/
+var util = __webpack_require__(33);
+util.inherits = __webpack_require__(23);
+/*</replacement>*/
+
+var Readable = __webpack_require__(145);
+var Writable = __webpack_require__(86);
+
+util.inherits(Duplex, Readable);
+
+var keys = objectKeys(Writable.prototype);
+for (var v = 0; v < keys.length; v++) {
+  var method = keys[v];
+  if (!Duplex.prototype[method]) Duplex.prototype[method] = Writable.prototype[method];
+}
+
+function Duplex(options) {
+  if (!(this instanceof Duplex)) return new Duplex(options);
+
+  Readable.call(this, options);
+  Writable.call(this, options);
+
+  if (options && options.readable === false) this.readable = false;
+
+  if (options && options.writable === false) this.writable = false;
+
+  this.allowHalfOpen = true;
+  if (options && options.allowHalfOpen === false) this.allowHalfOpen = false;
+
+  this.once('end', onend);
+}
+
+// the no-half-open enforcer
+function onend() {
+  // if we allow half-open state, or if the writable side ended,
+  // then we're ok.
+  if (this.allowHalfOpen || this._writableState.ended) return;
+
+  // no more data can be written.
+  // But allow more writes to happen in this tick.
+  processNextTick(onEndNT, this);
+}
+
+function onEndNT(self) {
+  self.end();
+}
+
+Object.defineProperty(Duplex.prototype, 'destroyed', {
+  get: function () {
+    if (this._readableState === undefined || this._writableState === undefined) {
+      return false;
+    }
+    return this._readableState.destroyed && this._writableState.destroyed;
+  },
+  set: function (value) {
+    // we ignore the value if the stream
+    // has not been initialized yet
+    if (this._readableState === undefined || this._writableState === undefined) {
+      return;
+    }
+
+    // backward compatibility, the user is explicitly
+    // managing destroyed
+    this._readableState.destroyed = value;
+    this._writableState.destroyed = value;
+  }
+});
+
+Duplex.prototype._destroy = function (err, cb) {
+  this.push(null);
+  this.end();
+
+  processNextTick(cb, err);
+};
+
+function forEach(xs, f) {
+  for (var i = 0, l = xs.length; i < l; i++) {
+    f(xs[i], i);
+  }
+}
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__(1);
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  var type = typeof value;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+
+  return !!length &&
+    (type == 'number' ||
+      (type != 'symbol' && reIsUint.test(value))) &&
+        (value > -1 && value % 1 == 0 && value < length);
+}
+
+module.exports = isIndex;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+module.exports = eq;
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isArray = __webpack_require__(0),
+    isKey = __webpack_require__(62),
+    stringToPath = __webpack_require__(219),
+    toString = __webpack_require__(58);
+
+/**
+ * Casts `value` to a path array if it's not one.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @param {Object} [object] The object to query keys on.
+ * @returns {Array} Returns the cast property path array.
+ */
+function castPath(value, object) {
+  if (isArray(value)) {
+    return value;
+  }
+  return isKey(value, object) ? [value] : stringToPath(toString(value));
+}
+
+module.exports = castPath;
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isSymbol = __webpack_require__(36);
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/**
+ * Converts `value` to a string key if it's not a string or symbol.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {string|symbol} Returns the key.
+ */
+function toKey(value) {
+  if (typeof value == 'string' || isSymbol(value)) {
+    return value;
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+module.exports = toKey;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var assignValue = __webpack_require__(63),
+    baseAssignValue = __webpack_require__(30);
+
+/**
+ * Copies properties of `source` to `object`.
+ *
+ * @private
+ * @param {Object} source The object to copy properties from.
+ * @param {Array} props The property identifiers to copy.
+ * @param {Object} [object={}] The object to copy properties to.
+ * @param {Function} [customizer] The function to customize copied values.
+ * @returns {Object} Returns `object`.
+ */
+function copyObject(source, props, object, customizer) {
+  var isNew = !object;
+  object || (object = {});
+
+  var index = -1,
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index];
+
+    var newValue = customizer
+      ? customizer(object[key], source[key], key, object, source)
+      : undefined;
+
+    if (newValue === undefined) {
+      newValue = source[key];
+    }
+    if (isNew) {
+      baseAssignValue(object, key, newValue);
+    } else {
+      assignValue(object, key, newValue);
+    }
+  }
+  return object;
+}
+
+module.exports = copyObject;
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.StatusCodeError = exports.RequestError = exports.InvalidMethodCallError = exports.NoCredentialsError = exports.InvalidUserError = exports.RateLimitError = undefined;
+exports.rateLimitWarning = rateLimitWarning;
+
+var _constants = __webpack_require__(13);
+
+class RateLimitError extends Error {
+  constructor() {
+    super(_constants.MODULE_NAME + ' refused to continue because reddit\'s ratelimit was exceeded. For more information about reddit\'s ratelimit, please consult reddit\'s API rules at ' + _constants.API_RULES_LINK + '.');
+  }
+}
+
+exports.RateLimitError = RateLimitError; /* eslint-disable max-len */
+
+class InvalidUserError extends Error {
+  constructor() {
+    var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Cannot fetch information on the given user. Please be sure you have the right username.';
+
+    super(message);
+  }
+}
+
+exports.InvalidUserError = InvalidUserError;
+class NoCredentialsError extends Error {
+  constructor() {
+    var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Missing credentials passed to ' + _constants.MODULE_NAME + ' constructor. You must pass an object containing either (a) userAgent, clientId, clientSecret, and refreshToken properties, (b) userAgent and accessToken properties, or (c) userAgent, clientId, clientSecret, username, and password properties. For information, please read the docs at ' + _constants.DOCS_LINK + '.';
+
+    super(message);
+  }
+}
+
+exports.NoCredentialsError = NoCredentialsError;
+class InvalidMethodCallError extends Error {}
+exports.InvalidMethodCallError = InvalidMethodCallError;
+class RequestError extends Error {}
+exports.RequestError = RequestError;
+class StatusCodeError extends Error {}
+
+exports.StatusCodeError = StatusCodeError;
+function rateLimitWarning(millisecondsUntilReset) {
+  return 'Warning: ' + _constants.MODULE_NAME + ' temporarily stopped sending requests because reddit\'s ratelimit was exceeded. The request you attempted to send was queued, and will be sent to reddit when the current ratelimit period expires in ' + millisecondsUntilReset / 1000 + ' seconds.';
+}
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+/**
+ * A specialized version of `_.map` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function arrayMap(array, iteratee) {
+  var index = -1,
+      length = array == null ? 0 : array.length,
+      result = Array(length);
+
+  while (++index < length) {
+    result[index] = iteratee(array[index], index, array);
+  }
+  return result;
+}
+
+module.exports = arrayMap;
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseIsArguments = __webpack_require__(158),
+    isObjectLike = __webpack_require__(5);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
+  return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
+    !propertyIsEnumerable.call(value, 'callee');
+};
+
+module.exports = isArguments;
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(1),
+    stubFalse = __webpack_require__(161);
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || stubFalse;
+
+module.exports = isBuffer;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)(module)))
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DataView = __webpack_require__(213),
+    Map = __webpack_require__(59),
+    Promise = __webpack_require__(214),
+    Set = __webpack_require__(215),
+    WeakMap = __webpack_require__(101),
+    baseGetTag = __webpack_require__(11),
+    toSource = __webpack_require__(94);
+
+/** `Object#toString` result references. */
+var mapTag = '[object Map]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    setTag = '[object Set]',
+    weakMapTag = '[object WeakMap]';
+
+var dataViewTag = '[object DataView]';
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = toSource(DataView),
+    mapCtorString = toSource(Map),
+    promiseCtorString = toSource(Promise),
+    setCtorString = toSource(Set),
+    weakMapCtorString = toSource(WeakMap);
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+var getTag = baseGetTag;
+
+// Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
+if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = baseGetTag(value),
+        Ctor = result == objectTag ? value.constructor : undefined,
+        ctorString = Ctor ? toSource(Ctor) : '';
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+module.exports = getTag;
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports) {
+
+/**
+ * This method returns the first argument it receives.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var defineProperty = __webpack_require__(107);
+
+/**
+ * The base implementation of `assignValue` and `assignMergeValue` without
+ * value checks.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {string} key The key of the property to assign.
+ * @param {*} value The value to assign.
+ */
+function baseAssignValue(object, key, value) {
+  if (key == '__proto__' && defineProperty) {
+    defineProperty(object, key, {
+      'configurable': true,
+      'enumerable': true,
+      'value': value,
+      'writable': true
+    });
+  } else {
+    object[key] = value;
+  }
+}
+
+module.exports = baseAssignValue;
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayLikeKeys = __webpack_require__(88),
+    baseKeysIn = __webpack_require__(229),
+    isArrayLike = __webpack_require__(6);
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
+}
+
+module.exports = keysIn;
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports) {
+
+/**
+ * Copies the values of `source` to `array`.
+ *
+ * @private
+ * @param {Array} source The array to copy values from.
+ * @param {Array} [array=[]] The array to copy values to.
+ * @returns {Array} Returns `array`.
+ */
+function copyArray(source, array) {
+  var index = -1,
+      length = source.length;
+
+  array || (array = Array(length));
+  while (++index < length) {
+    array[index] = source[index];
+  }
+  return array;
+}
+
+module.exports = copyArray;
+
+
+/***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1979,7 +1979,7 @@ module.exports = isPrototype;
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(10),
+var baseGetTag = __webpack_require__(11),
     isObjectLike = __webpack_require__(5);
 
 /** `Object#toString` result references. */
@@ -2085,7 +2085,7 @@ module.exports = ListCache;
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(17);
+var eq = __webpack_require__(18);
 
 /**
  * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -2112,7 +2112,7 @@ module.exports = assocIndexOf;
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(11);
+var getNative = __webpack_require__(12);
 
 /* Built-in method references that are verified to be native. */
 var nativeCreate = getNative(Object, 'create');
@@ -2174,8 +2174,8 @@ module.exports = arrayPush;
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castPath = __webpack_require__(18),
-    toKey = __webpack_require__(19);
+var castPath = __webpack_require__(19),
+    toKey = __webpack_require__(20);
 
 /**
  * The base implementation of `_.get` without support for default values.
@@ -2309,7 +2309,7 @@ module.exports = toInteger;
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var identity = __webpack_require__(28),
+var identity = __webpack_require__(29),
     overRest = __webpack_require__(117),
     setToString = __webpack_require__(71);
 
@@ -2440,13 +2440,13 @@ var _concat3 = _interopRequireDefault(_concat2);
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
 var _helpers = __webpack_require__(3);
 
-var _constants = __webpack_require__(12);
+var _constants = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2896,7 +2896,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 53 */
@@ -3054,13 +3054,13 @@ var nodeUtil = (function() {
 
 module.exports = nodeUtil;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)(module)))
 
 /***/ }),
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(10),
+var baseGetTag = __webpack_require__(11),
     isObject = __webpack_require__(2);
 
 /** `Object#toString` result references. */
@@ -3137,7 +3137,7 @@ module.exports = toString;
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(11),
+var getNative = __webpack_require__(12),
     root = __webpack_require__(1);
 
 /* Built-in method references that are verified to be native. */
@@ -3259,8 +3259,8 @@ module.exports = isKey;
 /* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseAssignValue = __webpack_require__(29),
-    eq = __webpack_require__(17);
+var baseAssignValue = __webpack_require__(30),
+    eq = __webpack_require__(18);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -3295,7 +3295,7 @@ module.exports = assignValue;
 
 var baseGetAllKeys = __webpack_require__(99),
     getSymbolsIn = __webpack_require__(108),
-    keysIn = __webpack_require__(30);
+    keysIn = __webpack_require__(31);
 
 /**
  * Creates an array of own and inherited enumerable property names and
@@ -3328,11 +3328,11 @@ module.exports = getPrototype;
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(24),
+var arrayMap = __webpack_require__(25),
     baseClone = __webpack_require__(67),
     baseUnset = __webpack_require__(112),
-    castPath = __webpack_require__(18),
-    copyObject = __webpack_require__(20),
+    castPath = __webpack_require__(19),
+    copyObject = __webpack_require__(21),
     customOmitClone = __webpack_require__(246),
     flatRest = __webpack_require__(115),
     getAllKeysIn = __webpack_require__(64);
@@ -3397,21 +3397,21 @@ var Stack = __webpack_require__(37),
     baseAssign = __webpack_require__(231),
     baseAssignIn = __webpack_require__(232),
     cloneBuffer = __webpack_require__(109),
-    copyArray = __webpack_require__(31),
+    copyArray = __webpack_require__(32),
     copySymbols = __webpack_require__(233),
     copySymbolsIn = __webpack_require__(234),
     getAllKeys = __webpack_require__(98),
     getAllKeysIn = __webpack_require__(64),
-    getTag = __webpack_require__(27),
+    getTag = __webpack_require__(28),
     initCloneArray = __webpack_require__(235),
     initCloneByTag = __webpack_require__(236),
     initCloneObject = __webpack_require__(111),
     isArray = __webpack_require__(0),
-    isBuffer = __webpack_require__(26),
+    isBuffer = __webpack_require__(27),
     isMap = __webpack_require__(240),
     isObject = __webpack_require__(2),
     isSet = __webpack_require__(242),
-    keys = __webpack_require__(9);
+    keys = __webpack_require__(10);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -3667,7 +3667,7 @@ module.exports = setToString;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseFor = __webpack_require__(120),
-    keys = __webpack_require__(9);
+    keys = __webpack_require__(10);
 
 /**
  * The base implementation of `_.forOwn` without support for iteratee shorthands.
@@ -3709,11 +3709,11 @@ module.exports = baseEach;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseKeys = __webpack_require__(90),
-    getTag = __webpack_require__(27),
-    isArguments = __webpack_require__(25),
+    getTag = __webpack_require__(28),
+    isArguments = __webpack_require__(26),
     isArray = __webpack_require__(0),
     isArrayLike = __webpack_require__(6),
-    isBuffer = __webpack_require__(26),
+    isBuffer = __webpack_require__(27),
     isPrototype = __webpack_require__(35),
     isTypedArray = __webpack_require__(34);
 
@@ -3850,9 +3850,9 @@ module.exports = includes;
 /* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(17),
+var eq = __webpack_require__(18),
     isArrayLike = __webpack_require__(6),
-    isIndex = __webpack_require__(16),
+    isIndex = __webpack_require__(17),
     isObject = __webpack_require__(2);
 
 /**
@@ -3891,7 +3891,7 @@ var Stack = __webpack_require__(37),
     baseFor = __webpack_require__(120),
     baseMergeDeep = __webpack_require__(265),
     isObject = __webpack_require__(2),
-    keysIn = __webpack_require__(30),
+    keysIn = __webpack_require__(31),
     safeGet = __webpack_require__(129);
 
 /**
@@ -4067,7 +4067,7 @@ var _clone3 = _interopRequireDefault(_clone2);
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -4079,7 +4079,7 @@ var _url = __webpack_require__(131);
 
 var _helpers = __webpack_require__(3);
 
-var _errors = __webpack_require__(21);
+var _errors = __webpack_require__(22);
 
 var _More = __webpack_require__(50);
 
@@ -4350,7 +4350,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _helpers = __webpack_require__(3);
 
-var _RedditContent = __webpack_require__(13);
+var _RedditContent = __webpack_require__(14);
 
 var _RedditContent2 = _interopRequireDefault(_RedditContent);
 
@@ -4464,7 +4464,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -4703,7 +4703,7 @@ exports = module.exports = __webpack_require__(145);
 exports.Stream = exports;
 exports.Readable = exports;
 exports.Writable = __webpack_require__(86);
-exports.Duplex = __webpack_require__(14);
+exports.Duplex = __webpack_require__(15);
 exports.Transform = __webpack_require__(151);
 exports.PassThrough = __webpack_require__(325);
 
@@ -4780,7 +4780,7 @@ Writable.WritableState = WritableState;
 
 /*<replacement>*/
 var util = __webpack_require__(33);
-util.inherits = __webpack_require__(22);
+util.inherits = __webpack_require__(23);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -4813,7 +4813,7 @@ util.inherits(Writable, Stream);
 function nop() {}
 
 function WritableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(14);
+  Duplex = Duplex || __webpack_require__(15);
 
   options = options || {};
 
@@ -4963,7 +4963,7 @@ if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.protot
 }
 
 function Writable(options) {
-  Duplex = Duplex || __webpack_require__(14);
+  Duplex = Duplex || __webpack_require__(15);
 
   // Writable ctor is applied to Duplexes, too.
   // `realHasInstance` is necessary because using plain `instanceof`
@@ -5390,14 +5390,14 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32), __webpack_require__(126).setImmediate, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(126).setImmediate, __webpack_require__(4)))
 
 /***/ }),
 /* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseValues = __webpack_require__(156),
-    keys = __webpack_require__(9);
+    keys = __webpack_require__(10);
 
 /**
  * Creates an array of the own enumerable string keyed property values of `object`.
@@ -5437,10 +5437,10 @@ module.exports = values;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseTimes = __webpack_require__(157),
-    isArguments = __webpack_require__(25),
+    isArguments = __webpack_require__(26),
     isArray = __webpack_require__(0),
-    isBuffer = __webpack_require__(26),
-    isIndex = __webpack_require__(16),
+    isBuffer = __webpack_require__(27),
+    isIndex = __webpack_require__(17),
     isTypedArray = __webpack_require__(34);
 
 /** Used for built-in method references. */
@@ -5593,7 +5593,7 @@ module.exports = snakeCase;
 /* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIteratee = __webpack_require__(7),
+var baseIteratee = __webpack_require__(8),
     negate = __webpack_require__(226),
     pickBy = __webpack_require__(227);
 
@@ -5797,7 +5797,7 @@ module.exports = Uint8Array;
 
 var baseGetAllKeys = __webpack_require__(99),
     getSymbols = __webpack_require__(61),
-    keys = __webpack_require__(9);
+    keys = __webpack_require__(10);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -5872,7 +5872,7 @@ module.exports = stubArray;
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(11),
+var getNative = __webpack_require__(12),
     root = __webpack_require__(1);
 
 /* Built-in method references that are verified to be native. */
@@ -5975,7 +5975,7 @@ module.exports = hasIn;
 var baseProperty = __webpack_require__(224),
     basePropertyDeep = __webpack_require__(225),
     isKey = __webpack_require__(62),
-    toKey = __webpack_require__(19);
+    toKey = __webpack_require__(20);
 
 /**
  * Creates a function that returns the value at `path` of a given object.
@@ -6012,7 +6012,7 @@ module.exports = property;
 
 var baseGet = __webpack_require__(43),
     baseSet = __webpack_require__(228),
-    castPath = __webpack_require__(18);
+    castPath = __webpack_require__(19);
 
 /**
  * The base implementation of  `_.pickBy` without support for iteratee shorthands.
@@ -6046,7 +6046,7 @@ module.exports = basePickBy;
 /* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(11);
+var getNative = __webpack_require__(12);
 
 var defineProperty = (function() {
   try {
@@ -6130,7 +6130,7 @@ function cloneBuffer(buffer, isDeep) {
 
 module.exports = cloneBuffer;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)(module)))
 
 /***/ }),
 /* 110 */
@@ -6182,10 +6182,10 @@ module.exports = initCloneObject;
 /* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castPath = __webpack_require__(18),
+var castPath = __webpack_require__(19),
     last = __webpack_require__(244),
     parent = __webpack_require__(245),
-    toKey = __webpack_require__(19);
+    toKey = __webpack_require__(20);
 
 /**
  * The base implementation of `_.unset`.
@@ -6245,7 +6245,7 @@ module.exports = baseSlice;
 /* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(10),
+var baseGetTag = __webpack_require__(11),
     getPrototype = __webpack_require__(65),
     isObjectLike = __webpack_require__(5);
 
@@ -6464,9 +6464,9 @@ module.exports = shortOut;
 /* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseAssignValue = __webpack_require__(29),
+var baseAssignValue = __webpack_require__(30),
     baseForOwn = __webpack_require__(72),
-    baseIteratee = __webpack_require__(7);
+    baseIteratee = __webpack_require__(8);
 
 /**
  * Creates an object with the same keys as `object` and values generated
@@ -6535,8 +6535,8 @@ module.exports = baseFor;
 /* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(24),
-    baseIteratee = __webpack_require__(7),
+var arrayMap = __webpack_require__(25),
+    baseIteratee = __webpack_require__(8),
     baseMap = __webpack_require__(251),
     isArray = __webpack_require__(0);
 
@@ -6650,7 +6650,7 @@ module.exports = baseFindIndex;
 /* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var identity = __webpack_require__(28);
+var identity = __webpack_require__(29);
 
 /**
  * Casts `value` to `identity` if it's not a function.
@@ -6671,9 +6671,9 @@ module.exports = castFunction;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseRest = __webpack_require__(47),
-    eq = __webpack_require__(17),
+    eq = __webpack_require__(18),
     isIterateeCall = __webpack_require__(76),
-    keysIn = __webpack_require__(30);
+    keysIn = __webpack_require__(31);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -6813,8 +6813,8 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseAssignValue = __webpack_require__(29),
-    eq = __webpack_require__(17);
+var baseAssignValue = __webpack_require__(30),
+    eq = __webpack_require__(18);
 
 /**
  * This function is like `assignValue` except that it doesn't assign
@@ -7653,7 +7653,7 @@ exports.encode = exports.stringify = __webpack_require__(272);
 /* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIteratee = __webpack_require__(7),
+var baseIteratee = __webpack_require__(8),
     basePullAt = __webpack_require__(274);
 
 /**
@@ -7712,7 +7712,7 @@ module.exports = remove;
 /* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var identity = __webpack_require__(28),
+var identity = __webpack_require__(29),
     metaMap = __webpack_require__(135);
 
 /**
@@ -8175,7 +8175,7 @@ function _isUint8Array(obj) {
 
 /*<replacement>*/
 var util = __webpack_require__(33);
-util.inherits = __webpack_require__(22);
+util.inherits = __webpack_require__(23);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -8209,7 +8209,7 @@ function prependListener(emitter, event, fn) {
 }
 
 function ReadableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(14);
+  Duplex = Duplex || __webpack_require__(15);
 
   options = options || {};
 
@@ -8286,7 +8286,7 @@ function ReadableState(options, stream) {
 }
 
 function Readable(options) {
-  Duplex = Duplex || __webpack_require__(14);
+  Duplex = Duplex || __webpack_require__(15);
 
   if (!(this instanceof Readable)) return new Readable(options);
 
@@ -9123,7 +9123,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(7)))
 
 /***/ }),
 /* 146 */
@@ -11370,11 +11370,11 @@ function simpleEnd(buf) {
 
 module.exports = Transform;
 
-var Duplex = __webpack_require__(14);
+var Duplex = __webpack_require__(15);
 
 /*<replacement>*/
 var util = __webpack_require__(33);
-util.inherits = __webpack_require__(22);
+util.inherits = __webpack_require__(23);
 /*</replacement>*/
 
 util.inherits(Transform, Duplex);
@@ -11532,7 +11532,6 @@ var _search_feature2 = _interopRequireDefault(_search_feature);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var p = void 0;
-console.log("Good star?");
 
 document.addEventListener("DOMContentLoaded", function () {
   var searchFeature = new _search_feature2.default();
@@ -11617,7 +11616,7 @@ exports.default = SearchFeature;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -11641,7 +11640,16 @@ var PostGrabber = function () {
 
     _classCallCheck(this, PostGrabber);
 
-    this.r = new _snoowrap2.default(_config.apiConfig);
+    if (process.env.NODE_ENV !== 'production') {
+      (0, _config.setENVVars)();
+    }
+    this.r = new _snoowrap2.default({
+      userAgent: process.env.USER_AGENT,
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD
+    });
     this.posts = [];
     this.targetSubreddit = target;
     this.paused = false;
@@ -11687,6 +11695,7 @@ var PostGrabber = function () {
 }();
 
 exports.default = PostGrabber;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 155 */
@@ -11737,7 +11746,7 @@ var _defaults3 = _interopRequireDefault(_defaults2);
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -11753,9 +11762,9 @@ var _request_handler = __webpack_require__(263);
 
 var requestHandler = _interopRequireWildcard(_request_handler);
 
-var _constants = __webpack_require__(12);
+var _constants = __webpack_require__(13);
 
-var _errors = __webpack_require__(21);
+var _errors = __webpack_require__(22);
 
 var errors = _interopRequireWildcard(_errors);
 
@@ -13458,13 +13467,13 @@ if (!module.parent && _helpers.isBrowser) {
 }
 
 module.exports = snoowrap;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(23)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(24)(module)))
 
 /***/ }),
 /* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(24);
+var arrayMap = __webpack_require__(25);
 
 /**
  * The base implementation of `_.values` and `_.valuesIn` which creates an
@@ -13515,7 +13524,7 @@ module.exports = baseTimes;
 /* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(10),
+var baseGetTag = __webpack_require__(11),
     isObjectLike = __webpack_require__(5);
 
 /** `Object#toString` result references. */
@@ -13539,7 +13548,7 @@ module.exports = baseIsArguments;
 /* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(15);
+var Symbol = __webpack_require__(16);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -13643,7 +13652,7 @@ module.exports = stubFalse;
 /* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(10),
+var baseGetTag = __webpack_require__(11),
     isLength = __webpack_require__(54),
     isObjectLike = __webpack_require__(5);
 
@@ -13931,8 +13940,8 @@ module.exports = basePropertyOf;
 /* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(15),
-    arrayMap = __webpack_require__(24),
+var Symbol = __webpack_require__(16),
+    arrayMap = __webpack_require__(25),
     isArray = __webpack_require__(0),
     isSymbol = __webpack_require__(36);
 
@@ -14926,9 +14935,9 @@ var Stack = __webpack_require__(37),
     equalArrays = __webpack_require__(96),
     equalByTag = __webpack_require__(208),
     equalObjects = __webpack_require__(211),
-    getTag = __webpack_require__(27),
+    getTag = __webpack_require__(28),
     isArray = __webpack_require__(0),
-    isBuffer = __webpack_require__(26),
+    isBuffer = __webpack_require__(27),
     isTypedArray = __webpack_require__(34);
 
 /** Used to compose bitmasks for value comparisons. */
@@ -15137,9 +15146,9 @@ module.exports = cacheHas;
 /* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(15),
+var Symbol = __webpack_require__(16),
     Uint8Array = __webpack_require__(97),
-    eq = __webpack_require__(17),
+    eq = __webpack_require__(18),
     equalArrays = __webpack_require__(96),
     mapToArray = __webpack_require__(209),
     setToArray = __webpack_require__(210);
@@ -15429,7 +15438,7 @@ module.exports = arrayFilter;
 /* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(11),
+var getNative = __webpack_require__(12),
     root = __webpack_require__(1);
 
 /* Built-in method references that are verified to be native. */
@@ -15442,7 +15451,7 @@ module.exports = DataView;
 /* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(11),
+var getNative = __webpack_require__(12),
     root = __webpack_require__(1);
 
 /* Built-in method references that are verified to be native. */
@@ -15455,7 +15464,7 @@ module.exports = Promise;
 /* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(11),
+var getNative = __webpack_require__(12),
     root = __webpack_require__(1);
 
 /* Built-in method references that are verified to be native. */
@@ -15469,7 +15478,7 @@ module.exports = Set;
 /***/ (function(module, exports, __webpack_require__) {
 
 var isStrictComparable = __webpack_require__(102),
-    keys = __webpack_require__(9);
+    keys = __webpack_require__(10);
 
 /**
  * Gets the property names, values, and compare flags of `object`.
@@ -15504,7 +15513,7 @@ var baseIsEqual = __webpack_require__(95),
     isKey = __webpack_require__(62),
     isStrictComparable = __webpack_require__(102),
     matchesStrictComparable = __webpack_require__(103),
-    toKey = __webpack_require__(19);
+    toKey = __webpack_require__(20);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -15739,12 +15748,12 @@ module.exports = baseHasIn;
 /* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castPath = __webpack_require__(18),
-    isArguments = __webpack_require__(25),
+var castPath = __webpack_require__(19),
+    isArguments = __webpack_require__(26),
     isArray = __webpack_require__(0),
-    isIndex = __webpack_require__(16),
+    isIndex = __webpack_require__(17),
     isLength = __webpack_require__(54),
-    toKey = __webpack_require__(19);
+    toKey = __webpack_require__(20);
 
 /**
  * Checks if `path` exists on `object`.
@@ -15872,8 +15881,8 @@ module.exports = negate;
 /* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayMap = __webpack_require__(24),
-    baseIteratee = __webpack_require__(7),
+var arrayMap = __webpack_require__(25),
+    baseIteratee = __webpack_require__(8),
     basePickBy = __webpack_require__(106),
     getAllKeysIn = __webpack_require__(64);
 
@@ -15916,10 +15925,10 @@ module.exports = pickBy;
 /***/ (function(module, exports, __webpack_require__) {
 
 var assignValue = __webpack_require__(63),
-    castPath = __webpack_require__(18),
-    isIndex = __webpack_require__(16),
+    castPath = __webpack_require__(19),
+    isIndex = __webpack_require__(17),
     isObject = __webpack_require__(2),
-    toKey = __webpack_require__(19);
+    toKey = __webpack_require__(20);
 
 /**
  * The base implementation of `_.set`.
@@ -16033,8 +16042,8 @@ module.exports = nativeKeysIn;
 /* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(20),
-    keys = __webpack_require__(9);
+var copyObject = __webpack_require__(21),
+    keys = __webpack_require__(10);
 
 /**
  * The base implementation of `_.assign` without support for multiple sources
@@ -16056,8 +16065,8 @@ module.exports = baseAssign;
 /* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(20),
-    keysIn = __webpack_require__(30);
+var copyObject = __webpack_require__(21),
+    keysIn = __webpack_require__(31);
 
 /**
  * The base implementation of `_.assignIn` without support for multiple sources
@@ -16079,7 +16088,7 @@ module.exports = baseAssignIn;
 /* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(20),
+var copyObject = __webpack_require__(21),
     getSymbols = __webpack_require__(61);
 
 /**
@@ -16101,7 +16110,7 @@ module.exports = copySymbols;
 /* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(20),
+var copyObject = __webpack_require__(21),
     getSymbolsIn = __webpack_require__(108);
 
 /**
@@ -16283,7 +16292,7 @@ module.exports = cloneRegExp;
 /* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(15);
+var Symbol = __webpack_require__(16);
 
 /** Used to convert symbols to primitives and strings. */
 var symbolProto = Symbol ? Symbol.prototype : undefined,
@@ -16340,7 +16349,7 @@ module.exports = isMap;
 /* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getTag = __webpack_require__(27),
+var getTag = __webpack_require__(28),
     isObjectLike = __webpack_require__(5);
 
 /** `Object#toString` result references. */
@@ -16397,7 +16406,7 @@ module.exports = isSet;
 /* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getTag = __webpack_require__(27),
+var getTag = __webpack_require__(28),
     isObjectLike = __webpack_require__(5);
 
 /** `Object#toString` result references. */
@@ -16491,8 +16500,8 @@ module.exports = customOmitClone;
 /* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(15),
-    isArguments = __webpack_require__(25),
+var Symbol = __webpack_require__(16),
+    isArguments = __webpack_require__(26),
     isArray = __webpack_require__(0);
 
 /** Built-in value references. */
@@ -16519,7 +16528,7 @@ module.exports = isFlattenable;
 
 var constant = __webpack_require__(249),
     defineProperty = __webpack_require__(107),
-    identity = __webpack_require__(28);
+    identity = __webpack_require__(29);
 
 /**
  * The base implementation of `setToString` without support for hot loop shorting.
@@ -16721,7 +16730,7 @@ module.exports = strictIndexOf;
 /* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(10),
+var baseGetTag = __webpack_require__(11),
     isArray = __webpack_require__(0),
     isObjectLike = __webpack_require__(5);
 
@@ -22542,7 +22551,7 @@ module.exports = ret;
 
 },{"./es5":13}]},{},[4])(4)
 });                    ;if (typeof window !== 'undefined' && window !== null) {                               window.P = window.Promise;                                                     } else if (typeof self !== 'undefined' && self !== null) {                             self.P = self.Promise;                                                         }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32), __webpack_require__(4), __webpack_require__(126).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(4), __webpack_require__(126).setImmediate))
 
 /***/ }),
 /* 260 */
@@ -22735,7 +22744,7 @@ module.exports = ret;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(7)))
 
 /***/ }),
 /* 261 */
@@ -22864,13 +22873,13 @@ exports.credentialedClientRequest = credentialedClientRequest;
 exports.unauthenticatedRequest = unauthenticatedRequest;
 exports.updateAccessToken = updateAccessToken;
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
-var _constants = __webpack_require__(12);
+var _constants = __webpack_require__(13);
 
-var _errors = __webpack_require__(21);
+var _errors = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23214,12 +23223,12 @@ module.exports = merge;
 var assignMergeValue = __webpack_require__(128),
     cloneBuffer = __webpack_require__(109),
     cloneTypedArray = __webpack_require__(110),
-    copyArray = __webpack_require__(31),
+    copyArray = __webpack_require__(32),
     initCloneObject = __webpack_require__(111),
-    isArguments = __webpack_require__(25),
+    isArguments = __webpack_require__(26),
     isArray = __webpack_require__(0),
     isArrayLikeObject = __webpack_require__(266),
-    isBuffer = __webpack_require__(26),
+    isBuffer = __webpack_require__(27),
     isFunction = __webpack_require__(57),
     isObject = __webpack_require__(2),
     isPlainObject = __webpack_require__(114),
@@ -23350,8 +23359,8 @@ module.exports = isArrayLikeObject;
 /* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(20),
-    keysIn = __webpack_require__(30);
+var copyObject = __webpack_require__(21),
+    keysIn = __webpack_require__(31);
 
 /**
  * Converts `value` to a plain object flattening inherited enumerable string
@@ -23391,7 +23400,7 @@ module.exports = toPlainObject;
 "use strict";
 
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -23401,7 +23410,7 @@ var _url2 = _interopRequireDefault(_url);
 
 var _querystring = __webpack_require__(132);
 
-var _errors = __webpack_require__(21);
+var _errors = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24043,7 +24052,7 @@ module.exports = function rawRequest(options) {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)(module), __webpack_require__(4)))
 
 /***/ }),
 /* 270 */
@@ -24262,7 +24271,7 @@ var objectKeys = Object.keys || function (obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseUnset = __webpack_require__(112),
-    isIndex = __webpack_require__(16);
+    isIndex = __webpack_require__(17);
 
 /** Used for built-in method references. */
 var arrayProto = Array.prototype;
@@ -24844,7 +24853,7 @@ module.exports = lodash;
 
 var LazyWrapper = __webpack_require__(78),
     LodashWrapper = __webpack_require__(141),
-    copyArray = __webpack_require__(31);
+    copyArray = __webpack_require__(32);
 
 /**
  * Creates a clone of `wrapper`.
@@ -24998,8 +25007,8 @@ module.exports = arrayIncludes;
 /* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyArray = __webpack_require__(31),
-    isIndex = __webpack_require__(16);
+var copyArray = __webpack_require__(32),
+    isIndex = __webpack_require__(17);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMin = Math.min;
@@ -25178,7 +25187,7 @@ module.exports = mergeData;
 /* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseAssignValue = __webpack_require__(29),
+var baseAssignValue = __webpack_require__(30),
     createAggregator = __webpack_require__(294);
 
 /**
@@ -25222,7 +25231,7 @@ module.exports = keyBy;
 
 var arrayAggregator = __webpack_require__(295),
     baseAggregator = __webpack_require__(296),
-    baseIteratee = __webpack_require__(7),
+    baseIteratee = __webpack_require__(8),
     isArray = __webpack_require__(0);
 
 /**
@@ -25352,9 +25361,9 @@ module.exports = find;
 /* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIteratee = __webpack_require__(7),
+var baseIteratee = __webpack_require__(8),
     isArrayLike = __webpack_require__(6),
-    keys = __webpack_require__(9);
+    keys = __webpack_require__(10);
 
 /**
  * Creates a `_.find` or `_.findLast` function.
@@ -25384,7 +25393,7 @@ module.exports = createFind;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseFindIndex = __webpack_require__(123),
-    baseIteratee = __webpack_require__(7),
+    baseIteratee = __webpack_require__(8),
     toInteger = __webpack_require__(46);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -25518,7 +25527,7 @@ module.exports = forEach;
 
 var arrayPush = __webpack_require__(42),
     baseFlatten = __webpack_require__(116),
-    copyArray = __webpack_require__(31),
+    copyArray = __webpack_require__(32),
     isArray = __webpack_require__(0);
 
 /**
@@ -25600,7 +25609,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _RedditContent = __webpack_require__(13);
+var _RedditContent = __webpack_require__(14);
 
 Object.defineProperty(exports, 'RedditContent', {
   enumerable: true,
@@ -25996,11 +26005,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _constants = __webpack_require__(12);
+var _constants = __webpack_require__(13);
 
-var _errors = __webpack_require__(21);
+var _errors = __webpack_require__(22);
 
-var _RedditContent = __webpack_require__(13);
+var _RedditContent = __webpack_require__(14);
 
 var _RedditContent2 = _interopRequireDefault(_RedditContent);
 
@@ -26574,7 +26583,7 @@ var _events = __webpack_require__(51);
 
 var _helpers = __webpack_require__(3);
 
-var _RedditContent = __webpack_require__(13);
+var _RedditContent = __webpack_require__(14);
 
 var _RedditContent2 = _interopRequireDefault(_RedditContent);
 
@@ -27016,7 +27025,7 @@ var _chunk3 = _interopRequireDefault(_chunk2);
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _Promise = __webpack_require__(8);
+var _Promise = __webpack_require__(9);
 
 var _Promise2 = _interopRequireDefault(_Promise);
 
@@ -27026,9 +27035,9 @@ var _fs = __webpack_require__(330);
 
 var _helpers = __webpack_require__(3);
 
-var _errors = __webpack_require__(21);
+var _errors = __webpack_require__(22);
 
-var _RedditContent = __webpack_require__(13);
+var _RedditContent = __webpack_require__(14);
 
 var _RedditContent2 = _interopRequireDefault(_RedditContent);
 
@@ -28577,7 +28586,7 @@ module.exports = chunk;
 module.exports = Stream;
 
 var EE = __webpack_require__(51).EventEmitter;
-var inherits = __webpack_require__(22);
+var inherits = __webpack_require__(23);
 
 inherits(Stream, EE);
 Stream.Readable = __webpack_require__(85);
@@ -29102,7 +29111,7 @@ var Transform = __webpack_require__(151);
 
 /*<replacement>*/
 var util = __webpack_require__(33);
-util.inherits = __webpack_require__(22);
+util.inherits = __webpack_require__(23);
 /*</replacement>*/
 
 util.inherits(PassThrough, Transform);
@@ -29128,7 +29137,7 @@ module.exports = __webpack_require__(86);
 /* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(14);
+module.exports = __webpack_require__(15);
 
 
 /***/ }),
@@ -29162,7 +29171,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _RedditContent = __webpack_require__(13);
+var _RedditContent = __webpack_require__(14);
 
 var _RedditContent2 = _interopRequireDefault(_RedditContent);
 
@@ -29322,7 +29331,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _RedditContent = __webpack_require__(13);
+var _RedditContent = __webpack_require__(14);
 
 var _RedditContent2 = _interopRequireDefault(_RedditContent);
 
@@ -29527,11 +29536,19 @@ exports.default = UserList;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var setENVVars = exports.setENVVars = function setENVVars() {
+  process.env.USER_AGENT = "Reddit Smarter is a tool for providing insight into karma patterns by subreddit";
+  process.env.CLIENT_ID = "L1P4DbaMoN1kqA";
+  process.env.CLIENT_SECRET = "f89SF6w8jHhLdrlBIJOekEMSXyA";
+  process.env.USERNAME = "RedditSmarterBot1";
+  process.env.PASSWORD = "UseRedditSmarter";
+};
+
 var apiConfig = exports.apiConfig = {
   userAgent: "Reddit Smarter is a tool for providing insight into karma patterns by subreddit",
   clientId: "L1P4DbaMoN1kqA",
@@ -29539,6 +29556,7 @@ var apiConfig = exports.apiConfig = {
   username: "RedditSmarterBot1",
   password: "UseRedditSmarter"
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ })
 /******/ ]);

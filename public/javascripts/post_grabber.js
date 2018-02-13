@@ -1,9 +1,18 @@
 import snoowrap from 'snoowrap';
-import { apiConfig } from '../../config';
+import { apiConfig, setENVVars } from '../../config';
 
 class PostGrabber {
   constructor(target, limit) {
-    this.r = new snoowrap(apiConfig);
+    if (process.env.NODE_ENV !== 'production') {
+      setENVVars();
+    }
+    this.r = new snoowrap({
+      userAgent: process.env.USER_AGENT,
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD
+    });
     this.posts = [];
     this.targetSubreddit = target;
     this.paused = false;
