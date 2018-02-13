@@ -5,11 +5,11 @@ class PostGrabber {
   constructor(target, limit) {
     // setENVVars();
     this.r = new snoowrap({
-      userAgent: process.env.USER_AGENT,
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      username: process.env.USERNAME,
-      password: process.env.PASSWORD
+      userAgent:ENV['USER_AGENT'],
+      clientId: ENV['CLIENT_ID'],
+      clientSecret: ENV['CLIENT_SECRET'],
+      username: ENV['USERNAME'],
+      password: ENV['PASSWORD']
     });
     this.posts = [];
     this.targetSubreddit = target;
