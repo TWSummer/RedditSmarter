@@ -1,4 +1,5 @@
 import snoowrap from 'snoowrap';
+import AnalyzePosts from './analyze_posts';
 
 
 class PostGrabber {
@@ -17,6 +18,7 @@ class PostGrabber {
     let ignoreNewestHours = 36;
     this.endTime = Math.floor(Date.now()/1000 - (3600 * ignoreNewestHours));
     this.createTime = 0;
+    this.analyze = new AnalyzePosts;
     this.r.getSubreddit(this.targetSubreddit).fetch().then(subInfo => {
       this.createTime = subInfo.created_utc;
       this.getPosts();
@@ -32,7 +34,7 @@ class PostGrabber {
             this.posts.push(results[i]);
           }
         }
-        console.log(this.posts);
+        this.analyze.receivePosts(this.posts);
         this.endTime = this.posts[this.posts.length - 1].created_utc;
         if (this.posts.length < this.maxPosts && !this.paused) {
           this.getPosts();
