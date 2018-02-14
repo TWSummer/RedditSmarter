@@ -90,6 +90,10 @@ class PostGrabber {
     let oldestPost = new Date(this.posts[this.posts.length -1].created * 1000);
     el.innerHTML = oldestPost.toLocaleString();
   }
+
+  updateKeyword(keyword) {
+    this.analyze.updateKeyword(keyword);
+  }
 }
 
 export default PostGrabber;

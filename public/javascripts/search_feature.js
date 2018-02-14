@@ -4,6 +4,8 @@ class SearchFeature {
   constructor() {
     this.subredditSearchForm = document.getElementById("subreddit-search-form");
     this.subredditSearchForm.addEventListener("submit", this.submitEvent.bind(this));
+    this.keywordSearch = document.getElementById("keyword-search");
+    this.keywordSearch.addEventListener("keyup", this.changeKeywordEvent.bind(this));
   }
 
   submitEvent(e) {
@@ -17,6 +19,12 @@ class SearchFeature {
     }
     this.gatherPosts(e.target[0].value);
     this.addPauseButton.bind(this)();
+  }
+
+  changeKeywordEvent(e) {
+    if (this.postGrabber) {
+      this.postGrabber.updateKeyword(e.target.value);
+    }
   }
 
   addPauseButton() {
@@ -45,6 +53,8 @@ class SearchFeature {
     [].forEach.call(graphs, (graph) => {
       graph.classList.add("active");
     })
+    el = document.getElementById("keyword-search");
+    el.classList.add("active");
   }
 }
 

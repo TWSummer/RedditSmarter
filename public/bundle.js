@@ -11718,6 +11718,8 @@ class SearchFeature {
   constructor() {
     this.subredditSearchForm = document.getElementById("subreddit-search-form");
     this.subredditSearchForm.addEventListener("submit", this.submitEvent.bind(this));
+    this.keywordSearch = document.getElementById("keyword-search");
+    this.keywordSearch.addEventListener("keyup", this.changeKeywordEvent.bind(this));
   }
 
   submitEvent(e) {
@@ -11731,6 +11733,12 @@ class SearchFeature {
     }
     this.gatherPosts(e.target[0].value);
     this.addPauseButton.bind(this)();
+  }
+
+  changeKeywordEvent(e) {
+    if (this.postGrabber) {
+      this.postGrabber.updateKeyword(e.target.value);
+    }
   }
 
   addPauseButton() {
@@ -11759,6 +11767,8 @@ class SearchFeature {
     [].forEach.call(graphs, (graph) => {
       graph.classList.add("active");
     })
+    el = document.getElementById("keyword-search");
+    el.classList.add("active");
   }
 }
 
@@ -11864,6 +11874,10 @@ class PostGrabber {
     el  = document.getElementById("oldest-post");
     let oldestPost = new Date(this.posts[this.posts.length -1].created * 1000);
     el.innerHTML = oldestPost.toLocaleString();
+  }
+
+  updateKeyword(keyword) {
+    this.analyze.updateKeyword(keyword);
   }
 }
 
@@ -60218,22 +60232,38 @@ class AnalyzePosts {
       data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       elementId: "total-karma",
       labels: ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
-      label: 'Total Karma'
+      label: 'Total Karma By Time of Day'
     });
     this.averageKarmaChart = new __WEBPACK_IMPORTED_MODULE_0__draw_graph__["a" /* default */]({
       data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       elementId: "average-karma",
       labels: ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
-      label: 'Average Karma'
+      label: 'Average Karma By Time of Day'
     });
+    this.karmaByTitleLength = new __WEBPACK_IMPORTED_MODULE_0__draw_graph__["a" /* default */]({
+      data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      elementId: "post-length-average",
+      labels: ["0-19 chars", "20-39 chars", "40-59 chars", "60-79 chars", "80-99 chars","100-119 chars","120-139 chars","140-159 chars","160-179 chars","180-199 chars","200-219 chars","220-239 chars", "240-259 chars","260-279 chars","280-299 chars"],
+      label: 'Average Karma By Length of Title'
+    });
+    this.keywordGraph = new __WEBPACK_IMPORTED_MODULE_0__draw_graph__["a" /* default */]({
+      data: [0,0],
+      elementId: "keyword-karma",
+      labels: [`Post titles containing ""`, `Post titles without ""`],
+      label: 'Average Karma By Keyword'
+    });
+    this.keyword = "";
   }
 
   receivePosts(posts) {
     console.log(posts);
+    this.posts = posts;
 
     if (this.totalKarmaChart.myChart.canvas) {
       this.createTotalKarmaGraph(posts);
       this.createAverageKarmaGraph(posts);
+      this.createKarmaByTitleLength(posts);
+      this.createKeywordGraph(posts);
     }
   }
 
@@ -60282,9 +60312,79 @@ class AnalyzePosts {
     return result;
   }
 
+  createKarmaByTitleLength(posts) {
+    let data = this.averageKarmaByTitleLength(posts);
+    this.karmaByTitleLength.updateData(data);
+  }
+
+  averageKarmaByTitleLength(posts) {
+    let numPosts = [];
+    let totalKarma = []
+    for (let i = 0; i < 15; i++) {
+      numPosts.push(0);
+      totalKarma.push(0);
+    }
+    for (let i = 0; i < posts.length; i++) {
+      let titleLengthBin = Math.floor(posts[i].title.length / 20)
+      totalKarma[titleLengthBin] += posts[i].score;
+      numPosts[titleLengthBin] += 1;
+    }
+    let result = [];
+    for (let i = 0; i < 15; i++) {
+      if (numPosts[i] < 15) {
+        result.push(0);
+      } else {
+        result.push(totalKarma[i] / numPosts[i])
+      }
+    }
+    return result;
+  }
+
+  createKeywordGraph(posts) {
+    if (this.keyword === undefined) {
+      this.keyword = "";
+    }
+    let data = this.averageKarmaByKeyword(posts);
+    this.keywordGraph.updateData(data);
+  }
+
+  averageKarmaByKeyword(posts) {
+    let numPosts = [0,0];
+    let totalKarma = [0,0];
+    for (let i = 0; i < posts.length; i++) {
+      if (posts[i].title.includes(this.keyword)) {
+        totalKarma[0] += posts[i].score;
+        numPosts[0] += 1;
+      } else {
+        totalKarma[1] += posts[i].score;
+        numPosts[1] += 1;
+      }
+    }
+    let result = [];
+    for (let i = 0; i < 2; i++) {
+      if (numPosts[i] === 0) {
+        result.push(0);
+      } else {
+        result.push(totalKarma[i] / numPosts[i])
+      }
+    }
+    return result;
+
+  }
+
+  updateKeyword(keyword) {
+    this.keyword = keyword;
+    this.createKeywordGraph(this.posts);
+    let labels = [`Post titles containing "${this.keyword}"`, `Post titles without "${this.keyword}"`]
+    this.keywordGraph.updateLabels(labels);
+
+  }
+
   destroy() {
     this.totalKarmaChart.myChart.destroy();
     this.averageKarmaChart.myChart.destroy();
+    this.karmaByTitleLength.myChart.destroy();
+    this.keywordGraph.myChart.destroy();
   }
 }
 
@@ -60329,6 +60429,11 @@ class DrawGraph {
 
   updateData(data) {
     this.myChart.config.data.datasets[0].data = data;
+    this.myChart.update();
+  }
+
+  updateLabels(labels) {
+    this.myChart.config.data.labels = labels;
     this.myChart.update();
   }
 }

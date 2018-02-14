@@ -31,6 +31,11 @@ class DrawGraph {
     this.myChart.config.data.datasets[0].data = data;
     this.myChart.update();
   }
+
+  updateLabels(labels) {
+    this.myChart.config.data.labels = labels;
+    this.myChart.update();
+  }
 }
 
 export default DrawGraph;

@@ -28,13 +28,22 @@ html, body {
   margin: 0 10px;
 }
 
-#search-header input[type="text"] {
+#search-header input[type="text"], .keyword-search {
   padding: 8px 15px;
   font-size: 18px;
   width: 300px;
   border-radius: 8px;
   border: 1px solid #777;
 }
+
+.keyword-search {
+  display: none;
+  width: 600px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 25px;
+}
+
 
 #search-header button {
   background-color: #0080ff;
