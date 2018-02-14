@@ -42,7 +42,7 @@ html, body {
 .posts-details {
   display: none;
   margin: 0 auto;
-  width: 900px;
+  width: 1200px;
   border: 2px solid #0080ff;
   border-radius: 15px;
   padding: 25px;
@@ -56,6 +56,10 @@ html, body {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
+}
+
+.post-details-first {
+  margin-bottom: 25px;
 }
 
 .detail-field h2 {
