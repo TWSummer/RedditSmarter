@@ -24,6 +24,7 @@ html, body {
   width: 120px;
   height: 40px;
   border-radius: 8px;
+  margin: 0 10px;
 }
 
 #search-header input[type="text"] {
@@ -36,4 +37,35 @@ html, body {
 
 #search-header button {
   background-color: #0080ff;
+}
+
+.posts-details {
+  display: none;
+  margin: 0 auto;
+  width: 900px;
+  border: 2px solid #0080ff;
+  border-radius: 15px;
+  padding: 25px;
+}
+
+.active {
+  display: block;
+}
+
+.post-details-first, .post-details-second {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail-field h2 {
+  font-size: 24px;
+  margin-right: 10px;
+  display: inline;
+}
+
+.detail-field h3 {
+  font-size: 24px;
+  color: #888;
+  display: inline;
 }

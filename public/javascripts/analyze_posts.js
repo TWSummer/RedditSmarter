@@ -37,6 +37,7 @@ class AnalyzePosts {
     }
     for (let i = 0; i < posts.length; i++) {
       let date = new Date(posts[i].created_utc * 1000);
+      console.log(date);
       result[date.getHours()] += posts[i].score;
     }
     return result;

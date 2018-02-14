@@ -8,6 +8,7 @@ class SearchFeature {
 
   submitEvent(e) {
     e.preventDefault();
+    this.showDetails();
     if (this.postGrabber) {
       if (!this.postGrabber.paused) {
         this.pausePostLoad();
@@ -35,6 +36,11 @@ class SearchFeature {
   gatherPosts (subredditName)
   {
     this.postGrabber = new PostGrabber(subredditName, 25000);
+  }
+
+  showDetails() {
+    let el = document.getElementById("posts-details");
+    el.classList.add("active");
   }
 }
 

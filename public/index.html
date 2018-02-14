@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Reddit Smarter</title>
+    <link rel="stylesheet" href="css/reset.css" type="text/css">
     <link rel="stylesheet" href="css/app.css" type="text/css">
     <script type="text/javascript" src="./bundle.js"></script>
   </head>
@@ -17,8 +18,26 @@
         <input type="submit" value="Search"></input>
       </form>
     </header>
-    <span id="posts-details">
+    <span id="posts-details" class="posts-details">
+      <div class="post-details-first">
+        <div class="detail-field">
+          <h2>Subreddit</h2>
+          <h3 id="subreddit-name">pics</h3>
+        </div>
 
+        <div class="detail-field">
+          <h2>Created At</h2>
+          <h3 id="created-at">pics</h3>
+        </div>
+
+        <div class="detail-field">
+          <h2>Status</h2>
+          <h3 id="search-status">Running</h3>
+        </div>
+      </div>
+      <div class="post-details-second">
+
+      </div>
     </span>
     <div class="graph-box">
       <canvas id="average-karma" width="400" height="400"></canvas>

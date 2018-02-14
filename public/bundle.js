@@ -11722,6 +11722,7 @@ class SearchFeature {
 
   submitEvent(e) {
     e.preventDefault();
+    this.showDetails();
     if (this.postGrabber) {
       if (!this.postGrabber.paused) {
         this.pausePostLoad();
@@ -11749,6 +11750,11 @@ class SearchFeature {
   gatherPosts (subredditName)
   {
     this.postGrabber = new __WEBPACK_IMPORTED_MODULE_0__post_grabber__["a" /* default */](subredditName, 25000);
+  }
+
+  showDetails() {
+    let el = document.getElementById("posts-details");
+    el.classList.add("active");
   }
 }
 
@@ -11801,7 +11807,7 @@ class PostGrabber {
           }
         }
         this.analyze.receivePosts(this.posts);
-        this.endTime = this.posts[this.posts.length - 1].created_utc;
+        this.endTime = this.posts[this.posts.length - 1].created - 1;
         if (this.posts.length < this.maxPosts && !this.paused && startLength !== this.posts.length) {
           this.getPosts();
         }
@@ -60203,6 +60209,7 @@ class AnalyzePosts {
     }
     for (let i = 0; i < posts.length; i++) {
       let date = new Date(posts[i].created_utc * 1000);
+      console.log(date);
       result[date.getHours()] += posts[i].score;
     }
     return result;

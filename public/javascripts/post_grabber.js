@@ -36,7 +36,7 @@ class PostGrabber {
           }
         }
         this.analyze.receivePosts(this.posts);
-        this.endTime = this.posts[this.posts.length - 1].created_utc;
+        this.endTime = this.posts[this.posts.length - 1].created - 1;
         if (this.posts.length < this.maxPosts && !this.paused && startLength !== this.posts.length) {
           this.getPosts();
         }
