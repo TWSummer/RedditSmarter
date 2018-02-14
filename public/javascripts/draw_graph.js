@@ -28,7 +28,6 @@ class DrawGraph {
   }
 
   updateData(data) {
-    console.log(this.myChart);
     this.myChart.config.data.datasets[0].data = data;
     this.myChart.update();
   }

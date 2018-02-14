@@ -26,6 +26,7 @@ class PostGrabber {
   }
 
   getPosts() {
+    let startLength = this.posts.length;
     this.r.getSubreddit(this.targetSubreddit)
       .search({query: `timestamp:${this.createTime}..${this.endTime}`, sort: "new", time: "all", syntax: "cloudsearch", limit: 100})
       .then( (results) =>{
@@ -36,7 +37,7 @@ class PostGrabber {
         }
         this.analyze.receivePosts(this.posts);
         this.endTime = this.posts[this.posts.length - 1].created_utc;
-        if (this.posts.length < this.maxPosts && !this.paused) {
+        if (this.posts.length < this.maxPosts && !this.paused && startLength !== this.posts.length) {
           this.getPosts();
         }
       }
