@@ -9,7 +9,10 @@ class SearchFeature {
   submitEvent(e) {
     e.preventDefault();
     if (this.postGrabber) {
-      this.pausePostLoad();
+      if (!this.postGrabber.paused) {
+        this.pausePostLoad();
+      }
+      this.postGrabber.destroy();
     }
     this.gatherPosts(e.target[0].value);
     this.addPauseButton.bind(this)();

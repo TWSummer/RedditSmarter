@@ -11723,7 +11723,10 @@ class SearchFeature {
   submitEvent(e) {
     e.preventDefault();
     if (this.postGrabber) {
-      this.pausePostLoad();
+      if (!this.postGrabber.paused) {
+        this.pausePostLoad();
+      }
+      this.postGrabber.destroy();
     }
     this.gatherPosts(e.target[0].value);
     this.addPauseButton.bind(this)();
@@ -11811,6 +11814,10 @@ class PostGrabber {
     if (!this.paused) {
       this.getPosts();
     }
+  }
+
+  destroy() {
+    this.analyze.destroy();
   }
 }
 
@@ -60177,8 +60184,11 @@ class AnalyzePosts {
 
   receivePosts(posts) {
     console.log(posts);
-    this.createTotalKarmaGraph(posts);
-    this.createAverageKarmaGraph(posts);
+
+    if (this.totalKarmaChart.myChart.canvas) {
+      this.createTotalKarmaGraph(posts);
+      this.createAverageKarmaGraph(posts);
+    }
   }
 
   createTotalKarmaGraph(posts) {
@@ -60224,6 +60234,11 @@ class AnalyzePosts {
       }
     }
     return result;
+  }
+
+  destroy() {
+    this.totalKarmaChart.myChart.destroy();
+    this.averageKarmaChart.myChart.destroy();
   }
 }
 

@@ -50,6 +50,10 @@ class PostGrabber {
       this.getPosts();
     }
   }
+
+  destroy() {
+    this.analyze.destroy();
+  }
 }
 
 export default PostGrabber;

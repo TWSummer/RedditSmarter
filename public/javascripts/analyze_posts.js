@@ -18,8 +18,11 @@ class AnalyzePosts {
 
   receivePosts(posts) {
     console.log(posts);
-    this.createTotalKarmaGraph(posts);
-    this.createAverageKarmaGraph(posts);
+
+    if (this.totalKarmaChart.myChart.canvas) {
+      this.createTotalKarmaGraph(posts);
+      this.createAverageKarmaGraph(posts);
+    }
   }
 
   createTotalKarmaGraph(posts) {
@@ -65,6 +68,11 @@ class AnalyzePosts {
       }
     }
     return result;
+  }
+
+  destroy() {
+    this.totalKarmaChart.myChart.destroy();
+    this.averageKarmaChart.myChart.destroy();
   }
 }
 
