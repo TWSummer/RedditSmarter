@@ -23,7 +23,7 @@ class AnalyzePosts {
     this.keywordGraph = new DrawGraph({
       data: [0,0],
       elementId: "keyword-karma",
-      labels: [`Post titles containing ""`, `Post titles without ""`],
+      labels: [`Titles including ""`, `Titles without ""`],
       label: 'Average Karma By Keyword'
     });
     this.keyword = "";
@@ -126,7 +126,7 @@ class AnalyzePosts {
     let numPosts = [0,0];
     let totalKarma = [0,0];
     for (let i = 0; i < posts.length; i++) {
-      if (posts[i].title.includes(this.keyword)) {
+      if (posts[i].title.toLowerCase().includes(this.keyword.toLowerCase())) {
         totalKarma[0] += posts[i].score;
         numPosts[0] += 1;
       } else {
@@ -149,7 +149,7 @@ class AnalyzePosts {
   updateKeyword(keyword) {
     this.keyword = keyword;
     this.createKeywordGraph(this.posts);
-    let labels = [`Post titles containing "${this.keyword}"`, `Post titles without "${this.keyword}"`]
+    let labels = [`Titles Including "${this.keyword}"`, `Titles without "${this.keyword}"`]
     this.keywordGraph.updateLabels(labels);
 
   }

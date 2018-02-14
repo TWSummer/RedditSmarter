@@ -43,6 +43,8 @@ class PostGrabber {
         this.endTime = this.posts[this.posts.length - 1].created - 1;
         if (this.posts.length < this.maxPosts && !this.paused && startLength !== this.posts.length) {
           this.getPosts();
+        } else if (this.posts.length >= this.maxPosts || startLength == this.posts.length) {
+          this.assignCompleteStatus();
         }
       }
     );
@@ -78,6 +80,11 @@ class PostGrabber {
     } else {
       el.innerHTML = "Running";
     }
+  }
+
+  assignCompleteStatus() {
+    let el = document.getElementById("search-status");
+    el.innerHTML = "Complete";
   }
 
   assignPostDetails() {
