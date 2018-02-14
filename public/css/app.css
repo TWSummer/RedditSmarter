@@ -8,6 +8,7 @@ html, body {
   height: 600px;
   margin: 0 auto;
   margin-bottom: 80px;
+  display: none;
 }
 
 #search-header {
@@ -42,7 +43,7 @@ html, body {
 .posts-details {
   display: none;
   margin: 0 auto;
-  width: 1200px;
+  width: 1000px;
   border: 2px solid #0080ff;
   border-radius: 15px;
   padding: 25px;
@@ -63,13 +64,13 @@ html, body {
 }
 
 .detail-field h2 {
-  font-size: 24px;
+  font-size: 20px;
   margin-right: 10px;
   display: inline;
 }
 
 .detail-field h3 {
-  font-size: 24px;
+  font-size: 20px;
   color: #888;
   display: inline;
 }

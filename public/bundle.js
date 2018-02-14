@@ -11755,6 +11755,10 @@ class SearchFeature {
   showDetails() {
     let el = document.getElementById("posts-details");
     el.classList.add("active");
+    let graphs = document.getElementsByClassName("graph-box");
+    [].forEach.call(graphs, (graph) => {
+      graph.classList.add("active");
+    })
   }
 }
 
