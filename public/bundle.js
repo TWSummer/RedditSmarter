@@ -46777,7 +46777,6 @@ class AnalyzePosts {
   }
 
   receivePosts(posts) {
-    console.log(posts);
     this.posts = posts;
 
     if (this.totalKarmaChart.myChart.canvas) {
