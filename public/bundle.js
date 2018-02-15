@@ -28769,7 +28769,7 @@ class SearchFeature {
 
   gatherPosts (subredditName)
   {
-    this.postGrabber = new __WEBPACK_IMPORTED_MODULE_0__post_grabber__["a" /* default */](subredditName, 50000);
+    this.postGrabber = new __WEBPACK_IMPORTED_MODULE_0__post_grabber__["a" /* default */](subredditName, 25000);
   }
 
   showDetails() {
