@@ -43,7 +43,7 @@ class SearchFeature {
 
   gatherPosts (subredditName)
   {
-    this.postGrabber = new PostGrabber(subredditName, 25000);
+    this.postGrabber = new PostGrabber(subredditName, 50000);
   }
 
   showDetails() {
@@ -52,8 +52,10 @@ class SearchFeature {
     let graphs = document.getElementsByClassName("graph-box");
     [].forEach.call(graphs, (graph) => {
       graph.classList.add("active");
-    })
+    });
     el = document.getElementById("keyword-search");
+    el.classList.add("active");
+    el = document.getElementById("keywords-details");
     el.classList.add("active");
   }
 }

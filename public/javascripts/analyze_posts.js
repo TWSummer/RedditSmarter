@@ -65,7 +65,7 @@ class AnalyzePosts {
 
   averageKarmaByTime(posts) {
     let numPosts = [];
-    let totalKarma = []
+    let totalKarma = [];
     for (let i = 0; i < 24; i++) {
       numPosts.push(0);
       totalKarma.push(0);
@@ -80,7 +80,7 @@ class AnalyzePosts {
       if (numPosts[i] === 0) {
         result.push(0);
       } else {
-        result.push(totalKarma[i] / numPosts[i])
+        result.push(totalKarma[i] / numPosts[i]);
       }
     }
     return result;
@@ -93,13 +93,13 @@ class AnalyzePosts {
 
   averageKarmaByTitleLength(posts) {
     let numPosts = [];
-    let totalKarma = []
+    let totalKarma = [];
     for (let i = 0; i < 15; i++) {
       numPosts.push(0);
       totalKarma.push(0);
     }
     for (let i = 0; i < posts.length; i++) {
-      let titleLengthBin = Math.floor(posts[i].title.length / 20)
+      let titleLengthBin = Math.floor(posts[i].title.length / 20);
       totalKarma[titleLengthBin] += posts[i].score;
       numPosts[titleLengthBin] += 1;
     }
@@ -108,7 +108,7 @@ class AnalyzePosts {
       if (numPosts[i] < 15) {
         result.push(0);
       } else {
-        result.push(totalKarma[i] / numPosts[i])
+        result.push(totalKarma[i] / numPosts[i]);
       }
     }
     return result;
@@ -139,9 +139,10 @@ class AnalyzePosts {
       if (numPosts[i] === 0) {
         result.push(0);
       } else {
-        result.push(totalKarma[i] / numPosts[i])
+        result.push(totalKarma[i] / numPosts[i]);
       }
     }
+    this.updateKeywordCounts(numPosts);
     return result;
 
   }
@@ -149,9 +150,16 @@ class AnalyzePosts {
   updateKeyword(keyword) {
     this.keyword = keyword;
     this.createKeywordGraph(this.posts);
-    let labels = [`Titles Including "${this.keyword}"`, `Titles without "${this.keyword}"`]
+    let labels = [`Titles Including "${this.keyword}"`, `Titles without "${this.keyword}"`];
     this.keywordGraph.updateLabels(labels);
 
+  }
+
+  updateKeywordCounts(numPosts) {
+    let el = document.getElementById("including-keyword");
+    el.innerHTML = numPosts[0];
+    el = document.getElementById("without-keyword");
+    el.innerHTML = numPosts[1];
   }
 
   destroy() {

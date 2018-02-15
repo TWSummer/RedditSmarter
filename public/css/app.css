@@ -26,6 +26,7 @@ html, body {
   height: 40px;
   border-radius: 8px;
   margin: 0 10px;
+  outline: none;
 }
 
 #search-header input[type="text"], .keyword-search {
@@ -34,6 +35,7 @@ html, body {
   width: 300px;
   border-radius: 8px;
   border: 1px solid #777;
+  outline: none;
 }
 
 .keyword-search {
