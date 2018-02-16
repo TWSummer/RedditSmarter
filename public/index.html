@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114314647-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-114314647-1');
+    </script>
     <meta charset="utf-8">
     <title>Reddit Smarter</title>
     <link rel="stylesheet" href="css/reset.css" type="text/css">
@@ -12,7 +20,7 @@
       <form id="subreddit-search-form">
         <input
         type="text"
-        placeholder="Enter Subreddit Name (ex: likeus)"
+        placeholder="Enter Subreddit Name (ex: TodayILearned)"
         name="subredditName"
         ></input>
         <input type="submit" value="Search"></input>
