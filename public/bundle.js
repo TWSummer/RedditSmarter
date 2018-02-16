@@ -46944,6 +46944,9 @@ class DrawGraph {
             }]
         },
         options: {
+            legend: {
+              display: false
+            },
             scales: {
                 yAxes: [{
                     ticks: {
