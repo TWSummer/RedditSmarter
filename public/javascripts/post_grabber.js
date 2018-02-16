@@ -4,13 +4,7 @@ import AnalyzePosts from './analyze_posts';
 
 class PostGrabber {
   constructor(target, limit) {
-    this.r = new snoowrap({
-      userAgent: "Reddit Smarter is a tool for providing insight into karma patterns by subreddit",
-      clientId: "L1P4DbaMoN1kqA",
-      clientSecret: "f89SF6w8jHhLdrlBIJOekEMSXyA",
-      username: "RedditSmarterBot1",
-      password: "UseRedditSmarter"
-    });
+    this.r = this.constructSnoowrap();
     this.posts = [];
     this.targetSubreddit = target;
     this.assignSubreddit();
@@ -100,6 +94,27 @@ class PostGrabber {
 
   updateKeyword(keyword) {
     this.analyze.updateKeyword(keyword);
+  }
+
+  constructSnoowrap() {
+    let credentials = [
+      {
+        userAgent: "Reddit Smarter is a tool for providing insight into karma patterns by subreddit",
+        clientId: "L1P4DbaMoN1kqA",
+        clientSecret: "f89SF6w8jHhLdrlBIJOekEMSXyA",
+        username: "RedditSmarterBot1",
+        password: "UseRedditSmarter"
+      },
+      {
+        userAgent: "A bot to help people improve the quality of their posts on Reddit.",
+        clientId: "HBC2OGQ6A40jMQ",
+        clientSecret: "-5AwD-_E9oWAxp8bcSSErg1JFKM",
+        username: "RedditSmarterBot2",
+        password: "UseRedditSmarter"
+      }
+    ];
+
+    return new snoowrap(credentials[Math.floor(Math.random() * credentials.length)]);
   }
 }
 

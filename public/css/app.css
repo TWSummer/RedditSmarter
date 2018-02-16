@@ -6,7 +6,7 @@ html, body {
 
 .graph-box {
   width: 600px;;
-  height: 600px;
+  height: 631px;
   margin: 0 auto;
   margin-bottom: 80px;
   display: none;
@@ -17,7 +17,7 @@ html, body {
 }
 
 #search-header {
-  margin-top: 40px;
+  margin-top: 10px;
   margin-bottom: 25px;
   display: flex;
   justify-content: center;
@@ -98,4 +98,15 @@ html, body {
   color: #555;
   text-align: center;
   margin-bottom: 10px;
+}
+
+.head-icon {
+  width: 36px;
+  height: 36px;
+  margin: 10px;
+}
+
+.personal-links {
+  display: flex;
+  justify-content: flex-end;
 }
