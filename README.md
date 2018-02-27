@@ -25,7 +25,8 @@ Reddit does not allow more than 1000 search results to be collected from a singl
 getPosts() {
   let startLength = this.posts.length;
   this.r.getSubreddit(this.targetSubreddit)
-    .search({query: `timestamp:${this.createTime}..${this.endTime}`, sort: "new", time: "all", syntax: "cloudsearch", limit: 100})
+    .search({query: `timestamp:${this.createTime}..${this.endTime}`,
+             sort: "new", time: "all", syntax: "cloudsearch", limit: 100})
     .then( (results) =>{
       for (let i = 0; i < 100; i++) {
         if (results[i]) {
@@ -35,9 +36,12 @@ getPosts() {
       this.assignPostDetails();
       this.analyze.receivePosts(this.posts);
       this.endTime = this.posts[this.posts.length - 1].created - 1;
-      if (this.posts.length < this.maxPosts && !this.paused && startLength !== this.posts.length) {
+      if (this.posts.length < this.maxPosts &&
+          !this.paused &&
+          startLength !== this.posts.length) {
         this.getPosts();
-      } else if (this.posts.length >= this.maxPosts || startLength == this.posts.length) {
+      } else if (this.posts.length >= this.maxPosts ||
+                 startLength == this.posts.length) {
         this.assignCompleteStatus();
       }
     }
