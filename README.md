@@ -1,4 +1,4 @@
-# Reddit Smarter
+# [Reddit Smarter](https://reddit-smarter.herokuapp.com/)
 
 ### Background and Overview
 
