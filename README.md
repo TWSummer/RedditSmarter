@@ -64,3 +64,9 @@ The speed and efficiency with which Reddit Smarter can analyze post data and upd
 The graph continues to update each second as 100 additional posts are collected from Reddit, but it also updates itself (both the average karma displayed for each column and the column labels) as a user types into the search bar. Additionally, we can see that number of posts that match and do not match the keyword update themselves in the header as each character is typed into the keyword field.
 
 This is accomplished by only requiring a single update to each component as each character is typed into the search field, and by computing all of the information for the keyword search using only a single, linear time complexity loop.
+
+## Future Features
+
+* Display only a single graph at a time, and provide users with buttons to select which type of graph they would like to see (will improve efficiency and allow many more graphs to be added)
+
+* Allow users to schedule posts they would like to post in the future (will require each user to authenticate with Reddit). Include the ability to set post flair and add a comment when the post goes up on Reddit.
