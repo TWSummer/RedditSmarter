@@ -60,3 +60,7 @@ Next, function decides whether it should call itself again. If we have not reach
 The speed and efficiency with which Reddit Smarter can analyze post data and update the visual display can be most starkly seen in the keyword search component.
 
 ![](https://i.imgur.com/pWxzPow.gif)
+
+The graph continues to update each second as 100 additional posts are collected from Reddit, but it also updates itself (both the average karma displayed for each column and the column labels) as a user types into the search bar. Additionally, we can see that number of posts that match and do not match the keyword update themselves in the header as each character is typed into the keyword field.
+
+This is accomplished by only requiring a single update to each component as each character is typed into the search field, and by computing all of the information for the keyword search using only a single, linear time complexity loop.
