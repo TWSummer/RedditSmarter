@@ -54,3 +54,9 @@ The above code demonstrates the collection of posts. First the targeted subreddi
 This is important for the next step, which will push any results received into the array of results that is being tracked. The next two commands `this.assignPostDetails()` and `this.analyze.receivePosts(this.posts)` will update the header info on the page and update the graphs on the page with the new information that has been collected. Next, the value of `endTime` is set to the time at which the oldest post we have collected was posted (minus 1ms).
 
 Next, function decides whether it should call itself again. If we have not reached the maximum number of posts that Reddit Smarter allows (25,000) and if some posts were collected by the last search (meaning we haven't reached the end of all the posts on the subreddit), and the search has not been paused, then the getPosts method will call itself again to continue collecting more posts (but this time the range of times being searched will exclude the times at which the posts we have collected were posted, because the value of `endTime` has been changed). If the end of the posts have been reached, it will let users know that the search is complete by changing the status to "Complete".
+
+### Visual display
+
+The speed and efficiency with which Reddit Smarter can analyze post data and update the visual display can be most starkly seen in the keyword search component.
+
+![](https://i.imgur.com/pWxzPow.gif)
