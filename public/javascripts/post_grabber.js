@@ -49,6 +49,11 @@ class PostGrabber {
     this.assignStatus();
     if (!this.paused) {
       this.getPosts();
+      let pauseButton = document.getElementById("pause-button");
+      pauseButton.innerHTML = "Pause";
+    } else {
+      let pauseButton = document.getElementById("pause-button");
+      pauseButton.innerHTML = "Resume";
     }
   }
 

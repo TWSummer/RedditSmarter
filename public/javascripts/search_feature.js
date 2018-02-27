@@ -31,6 +31,7 @@ class SearchFeature {
     if (!this.pauseButton) {
       this.pauseButton = document.createElement("button");
       this.pauseButton.innerHTML="Pause";
+      this.pauseButton.setAttribute("id", "pause-button");
       this.pauseButton.addEventListener("click", this.pausePostLoad.bind(this));
       let header = document.getElementById("search-header");
       header.appendChild(this.pauseButton);
