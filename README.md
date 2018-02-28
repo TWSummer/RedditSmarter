@@ -17,7 +17,7 @@ Reddit limits the rate at which requests can be made to their API and the size o
 
 ### Post Collection
 
-Access to Reddit's API was achieved using the [snoowrap](https://github.com/not-an-aardvark/snoowrap) JavaScript package. To eliminate the need for users to authenticate with Reddit Smarter in order to use the site and avoid the need to store and track users' authentication tokens on the backend, Reddit Smarter runs as a Reddit Script, using its own API access keys to interact with Reddit's API.
+Access to Reddit's API was achieved using the [snoowrap](https://github.com/not-an-aardvark/snoowrap) JavaScript package. To eliminate the need for users to authenticate their Reddit accounts with the app in order to use the site and to avoid the need to store and track users' authentication tokens on the backend, Reddit Smarter runs as a Reddit Script, using its own API access keys to interact with Reddit's API.
 
 Reddit does not allow more than 1000 search results to be collected from a single search using any of their methods of search, and the ability to limit search results by time posted is only available using cloudsearch, so Reddit Smarter takes advantage of this feature.
 
