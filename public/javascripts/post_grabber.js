@@ -1,5 +1,6 @@
 import snoowrap from 'snoowrap';
 import AnalyzePosts from './analyze_posts';
+import $ from 'jquery';
 
 
 class PostGrabber {
@@ -11,7 +12,7 @@ class PostGrabber {
     this.paused = false;
     this.assignStatus();
     this.maxPosts = limit;
-    let ignoreNewestHours = 36;
+    let ignoreNewestHours = 24 * 40;
     this.endTime = Math.floor(Date.now()/1000 - (3600 * ignoreNewestHours));
     this.createTime = 0;
     this.analyze = new AnalyzePosts;
@@ -22,26 +23,61 @@ class PostGrabber {
     });
   }
 
+  // {query: `timestamp:${this.createTime}..${this.endTime}`,
+  //   sort: "new",
+  //   time: "all",
+  //   syntax: "cloudsearch",
+  //   limit: 100}
+
   getPosts() {
     let startLength = this.posts.length;
-    this.r.getSubreddit(this.targetSubreddit)
-      .search({query: `timestamp:${this.createTime}..${this.endTime}`, sort: "new", time: "all", syntax: "cloudsearch", limit: 100})
-      .then( (results) =>{
-        for (let i = 0; i < 100; i++) {
-          if (results[i]) {
-            this.posts.push(results[i]);
-          }
-        }
-        this.assignPostDetails();
-        this.analyze.receivePosts(this.posts);
-        this.endTime = this.posts[this.posts.length - 1].created - 1;
-        if (this.posts.length < this.maxPosts && !this.paused && startLength !== this.posts.length) {
-          this.getPosts();
-        } else if (this.posts.length >= this.maxPosts || startLength == this.posts.length) {
-          this.assignCompleteStatus();
+
+    $.ajax({
+      method: 'GET',
+      url: `https://api.pushshift.io/reddit/search/submission/?subreddit=${this.targetSubreddit}&size=200&before=${this.endTime}`
+    })
+    .then( (response) =>{
+      let results = response.data;
+      console.log(results);
+      for (let i = 0; i < 200; i++) {
+        if (results[i] && results[i].author !== "[deleted]") {
+          this.posts.push(results[i]);
         }
       }
-    );
+      this.assignPostDetails();
+      this.analyze.receivePosts(this.posts);
+      this.endTime = this.posts[this.posts.length - 1].created_utc - 1;
+      if (this.posts.length < this.maxPosts && !this.paused && startLength !== this.posts.length) {
+        this.getPosts();
+      } else if (this.posts.length >= this.maxPosts || startLength == this.posts.length) {
+        this.assignCompleteStatus();
+      }
+    }
+  );
+
+
+    // this.r.getSubreddit(this.targetSubreddit)
+    //   .search({query: `timestamp:${this.createTime}..${this.endTime}`,
+    //            sort: "new",
+    //            time: "all",
+    //            syntax: "cloudsearch",
+    //            limit: 100})
+    //   .then( (results) =>{
+    //     for (let i = 0; i < 100; i++) {
+    //       if (results[i]) {
+    //         this.posts.push(results[i]);
+    //       }
+    //     }
+    //     this.assignPostDetails();
+    //     this.analyze.receivePosts(this.posts);
+    //     this.endTime = this.posts[this.posts.length - 1].created - 1;
+    //     if (this.posts.length < this.maxPosts && !this.paused && startLength !== this.posts.length) {
+    //       this.getPosts();
+    //     } else if (this.posts.length >= this.maxPosts || startLength == this.posts.length) {
+    //       this.assignCompleteStatus();
+    //     }
+    //   }
+    // );
   }
 
   pause() {
@@ -90,10 +126,10 @@ class PostGrabber {
     let el = document.getElementById("total-post-count");
     el.innerHTML = this.posts.length;
     el  = document.getElementById("most-recent");
-    let mostRecent = new Date(this.posts[0].created * 1000);
+    let mostRecent = new Date(this.posts[0].created_utc * 1000);
     el.innerHTML = mostRecent.toLocaleString();
     el  = document.getElementById("oldest-post");
-    let oldestPost = new Date(this.posts[this.posts.length -1].created * 1000);
+    let oldestPost = new Date(this.posts[this.posts.length -1].created_utc * 1000);
     el.innerHTML = oldestPost.toLocaleString();
   }
 
