@@ -28825,12 +28825,6 @@ class PostGrabber {
     });
   }
 
-  // {query: `timestamp:${this.createTime}..${this.endTime}`,
-  //   sort: "new",
-  //   time: "all",
-  //   syntax: "cloudsearch",
-  //   limit: 100}
-
   getPosts() {
     let startLength = this.posts.length;
 
@@ -28840,7 +28834,6 @@ class PostGrabber {
     })
     .then( (response) =>{
       let results = response.data;
-      console.log(results);
       for (let i = 0; i < 200; i++) {
         if (results[i] && results[i].author !== "[deleted]") {
           this.posts.push(results[i]);
@@ -28854,32 +28847,7 @@ class PostGrabber {
       } else if (this.posts.length >= this.maxPosts || startLength == this.posts.length) {
         this.assignCompleteStatus();
       }
-    }
-  );
-
-
-    // this.r.getSubreddit(this.targetSubreddit)
-    //   .search({query: `timestamp:${this.createTime}..${this.endTime}`,
-    //            sort: "new",
-    //            time: "all",
-    //            syntax: "cloudsearch",
-    //            limit: 100})
-    //   .then( (results) =>{
-    //     for (let i = 0; i < 100; i++) {
-    //       if (results[i]) {
-    //         this.posts.push(results[i]);
-    //       }
-    //     }
-    //     this.assignPostDetails();
-    //     this.analyze.receivePosts(this.posts);
-    //     this.endTime = this.posts[this.posts.length - 1].created - 1;
-    //     if (this.posts.length < this.maxPosts && !this.paused && startLength !== this.posts.length) {
-    //       this.getPosts();
-    //     } else if (this.posts.length >= this.maxPosts || startLength == this.posts.length) {
-    //       this.assignCompleteStatus();
-    //     }
-    //   }
-    // );
+    });
   }
 
   pause() {
